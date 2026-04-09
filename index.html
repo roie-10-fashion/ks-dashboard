@@ -510,6 +510,10 @@ function openNoteModal(title, text){
   document.getElementById('modalBody').textContent=text;
   document.getElementById('notesModal').classList.add('open');
 }
+function openQCNote(i){
+  const q=QCS[i];
+  openNoteModal('📋 '+q.item+' — '+q.date, q.comments.replace(/\\n/g,'\n'));
+}
 function closeModal(e){if(e.target.id==='notesModal')document.getElementById('notesModal').classList.remove('open');}
 function renderQC(d){
   document.getElementById('qcCnt').textContent=d.length+' / '+QCS.length;
@@ -520,7 +524,7 @@ function renderQC(d){
     <td class="mono" style="font-size:11px">${q.item}</td>
     <td>${qcB(q.result)}</td>
     <td>${lk(q.link,'View')}</td>
-    <td>${q.comments?`<span onclick="openNoteModal('📋 ${q.item} — ${q.date}',${JSON.stringify(q.comments)})" style="cursor:pointer;font-size:16px">💬</span>`:''}</td>
+    <td>${q.comments?`<span onclick="openQCNote(${QCS.indexOf(q)})" style="cursor:pointer;font-size:16px">💬</span>`:''}</td>
   </tr>`).join('');
 }
 function filterQC(){
