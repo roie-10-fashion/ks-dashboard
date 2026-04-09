@@ -525,9 +525,9 @@ function renderInv(){
   document.getElementById('invCnt').textContent=INVS.length+' / '+INVS.length;
   renderInvData(INVS);
 }
-function openNoteModal(title, text){
-  document.getElementById('modalTitle').textContent=title;
-  document.getElementById('modalBody').textContent=text;
+function openNoteModal(el){
+  document.getElementById('modalTitle').textContent=el.dataset.title;
+  document.getElementById('modalBody').textContent=el.dataset.text.replace(/&#10;/g,'\n');
   document.getElementById('notesModal').classList.add('open');
 }
 function closeModal(e){if(e.target.id==='notesModal')document.getElementById('notesModal').classList.remove('open');}
@@ -540,7 +540,7 @@ function renderQC(d){
     <td class="mono" style="font-size:11px">${q.item}</td>
     <td>${qcB(q.result)}</td>
     <td>${lk(q.link,'View')}</td>
-    <td>${q.comments?`<span onclick="openNoteModal('📋 ${q.item} — ${q.date}',${JSON.stringify(q.comments)})" style="cursor:pointer;font-size:16px">💬</span>`:''}</td>
+    <td>${q.comments?`<span onclick="openNoteModal(this)" data-title="📋 ${q.item} — ${q.date}" data-text="${q.comments.replace(/"/g,'&quot;').replace(/\n/g,'&#10;')}" style="cursor:pointer;font-size:16px">💬</span>`:''}</td>
   </tr>`).join('');
 }
 function filterQC(){
