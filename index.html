@@ -377,7 +377,7 @@ function pCol(p){const m={'ANNIE':'#DB2777','JOEY':'#2D5BE3','HELEN':'#0891B2','
 function fmt(n){return n?'$'+Number(n).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';}
 function b(t,c){return `<span class="badge ${c}">${t}</span>`;}
 function qcB(r){return b(r,r==='Passed'?'bg':r==='Failed'?'br':'bo');}
-function lk(u,t,gh){var link=gh||u;return u?`<a href="javascript:void(0)" onclick="openPdf('${link}','${t}')" style="color:var(--blue);font-size:11px;cursor:pointer">🔗 ${t}</a>`:'—';}
+function lk(u,t){return u?`<a href="javascript:void(0)" onclick="openPdf('${u}','${t}')" style="color:var(--blue);font-size:11px;cursor:pointer">🔗 ${t}</a>`:'—';}
 
 function initCharts(){
   new Chart('seasonChart',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'CC'),borderRadius:4,label:'$'}]},
@@ -544,7 +544,7 @@ function closeModal(e){if(e.target.id==='notesModal')document.getElementById('no
 function renderQC(d){
   document.getElementById('qcCnt').textContent=d.length+' / '+QCS.length;
   document.getElementById('qcTbody').innerHTML=d.map(q=>`<tr>
-    <td>${lk(q.link,'View',q.ghLink)}</td>
+    <td>${lk(q.link,'View')}</td>
     <td class="mono" style="font-size:11px">${q.item}</td>
     <td>${qcB(q.result)}</td>
     <td class="mono" style="font-size:11px">${q.date}</td>
@@ -573,7 +573,7 @@ function filterTests(){
   );
   document.getElementById('testCnt').textContent=filtered.length+' / '+TESTS.length;
   document.getElementById('testTbody').innerHTML=filtered.map(t=>`<tr>
-    <td>${lk(t.link,'View',t.ghLink)}</td>
+    <td>${lk(t.link,'View')}</td>
     <td class="mono" style="font-size:11px">${t.item}</td>
     <td>${qcB(t.result)}</td>
     <td class="mono" style="font-size:11px">${t.date}</td>
@@ -584,7 +584,7 @@ function filterTests(){
 function rstTests(){['testSrch','testRes'].forEach(id=>document.getElementById(id).value='');filterTests();}
 function renderTests(){
   document.getElementById('testTbody').innerHTML=TESTS.map((t,i)=>`<tr>
-    <td>${lk(t.link,'View',t.ghLink)}</td>
+    <td>${lk(t.link,'View')}</td>
     <td class="mono" style="font-size:11px">${t.item}</td>
     <td>${qcB(t.result)}</td>
     <td class="mono" style="font-size:11px">${t.date}</td>
