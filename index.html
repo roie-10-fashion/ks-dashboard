@@ -113,10 +113,7 @@ canvas{max-height:230px}
 
 <div class="hdr">
   <div class="hdr-t">📦 KS Follow-Up Orders Dashboard <span class="pill">2024–2026</span></div>
-  <div style="display:flex;align-items:center;gap:8px">
-    <div class="pill">31 POs · 121 Items · $521K Total</div>
-    <button onclick="show('ov',document.querySelector('.tab'))" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px">🏠</button>
-  </div>
+  <div class="pill">31 POs · 121 Items · $521K Total</div>
 </div>
 
 <!-- Notes Modal -->
@@ -127,6 +124,7 @@ canvas{max-height:230px}
       <button class="modal-close" onclick="document.getElementById('notesModal').classList.remove('open')">✕</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
+      <button onclick="show('ov',document.querySelector('.tab'))" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px">🏠</button>
   </div>
 </div>
 
@@ -413,7 +411,7 @@ function pCol(p){const m={'ANNIE':'#DB2777','JOEY':'#2D5BE3','HELEN':'#0891B2','
 function fmt(n){return n?'$'+Number(n).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';}
 function b(t,c){return `<span class="badge ${c}">${t}</span>`;}
 function qcB(r){return b(r,r==='Passed'?'bg':r==='Failed'?'br':'bo');}
-function lk(u,t){return u?`<a href="javascript:void(0)" onclick="openPdf('${u}','${t}')" style="color:var(--blue);font-size:11px;cursor:pointer">🔗 ${t}</a>`:'—';}
+function lk(u,t){return u?`<a href="javascript:void(0)" onclick="openViewer('${u}','${t}')" style="color:var(--blue);font-size:11px;cursor:pointer">🔗 ${t}</a>`:'—';}
 
 function initCharts(){
   new Chart('seasonChart',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'CC'),borderRadius:4,label:'$'}]},
