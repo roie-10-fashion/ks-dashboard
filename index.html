@@ -271,7 +271,7 @@ canvas{max-height:230px}
         <span class="clbl" id="testCnt"></span>
       </div>
       <div class="th-wrap" style="max-height:420px"><table><thead><tr>
-        <th>Date</th><th>Season</th><th>Item</th><th>Result</th><th>Report</th>
+        <th>Date</th><th>Season</th><th>Item</th><th>Result</th><th>Report</th><th>Notes</th>
       </tr></thead><tbody id="testTbody"></tbody></table></div>
     </div>
   </div>
@@ -477,7 +477,7 @@ function filterPO(){
   const s=document.getElementById('poSrch').value.toLowerCase();
   const y=document.getElementById('poYr').value;
   const se=document.getElementById('poSeas').value;
-  renderPO(POS.filter(p=>(!s||p.po.toLowerCase().includes(s)||p.season.toLowerCase().includes(s))&&(!y||p.year===+y)&&(!se||p.season.includes(se))));
+  renderPO(POS.filter(p=>(!s||p.po.toLowerCase().includes(s)||p.sheet.toLowerCase().includes(s)||p.season.toLowerCase().includes(s))&&(!y||p.year===+y)&&(!se||p.season.includes(se))));
 }
 function rstPO(){['poSrch','poYr','poSeas'].forEach(id=>document.getElementById(id).value='');filterPO();}
 
@@ -568,6 +568,10 @@ function openQCNote(i){
   const q=QCS[i];
   openNoteModal('📋 '+q.item+' — '+q.date, q.comments.replace(/\\n/g,'\n'));
 }
+function openTestNote(i){
+  const t=TESTS[i];
+  openNoteModal('🧪 '+t.item+' — '+t.date, t.comments.replace(/\\n/g,'\n'));
+}
 function closeModal(e){if(e.target.id==='notesModal')document.getElementById('notesModal').classList.remove('open');}
 function renderQC(d){
   document.getElementById('qcCnt').textContent=d.length+' / '+QCS.length;
@@ -606,6 +610,7 @@ function filterTests(){
     <td class="mono" style="font-size:11px">${t.item}</td>
     <td>${qcB(t.result)}</td>
     <td>${lk(t.link,'View')}</td>
+    <td>${t.comments?`<span onclick="openTestNote(${TESTS.indexOf(t)})" style="cursor:pointer;font-size:16px">💬</span>`:''}</td>
   </tr>`).join('');
 }
 function rstTests(){['testSrch','testRes'].forEach(id=>document.getElementById(id).value='');filterTests();}
@@ -616,6 +621,7 @@ function renderTests(){
     <td class="mono" style="font-size:11px">${t.item}</td>
     <td>${qcB(t.result)}</td>
     <td>${lk(t.link,'View')}</td>
+    <td>${t.comments?`<span onclick="openTestNote(${TESTS.indexOf(t)})" style="cursor:pointer;font-size:16px">💬</span>`:''}</td>
   </tr>`).join('');
 }
 
