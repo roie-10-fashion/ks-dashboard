@@ -175,8 +175,13 @@ canvas{max-height:230px}
 </div>
 
 <div id="po" class="page">
-  <div class="kg" style="grid-template-columns:220px">
+  <div class="kg" style="grid-template-columns:repeat(6,1fr)">
     <div class="kpi cb"><div class="kl">Total POs</div><div class="kv" id="poTotalCnt"></div><div class="ks">All orders</div></div>
+    <div class="kpi cn"><div class="kl">2024</div><div class="kv" id="poCnt24"></div><div class="ks">POs</div></div>
+    <div class="kpi co"><div class="kl">2025</div><div class="kv" id="poCnt25"></div><div class="ks">POs</div></div>
+    <div class="kpi cp"><div class="kl">2026</div><div class="kv" id="poCnt26"></div><div class="ks">POs</div></div>
+    <div class="kpi cg"><div class="kl">Total Items</div><div class="kv" id="poItemsCnt"></div><div class="ks">Across all POs</div></div>
+    <div class="kpi co"><div class="kl">Upcoming</div><div class="kv" id="poUpcomingCnt"></div><div class="ks">ETD next 30 days</div></div>
   </div>
   <div class="card">
     <div class="ctitle"><span class="ctbar" style="background:var(--blue)"></span>Purchase Orders</div>
@@ -491,6 +496,15 @@ function initCharts(){
   document.getElementById('ovQcSub').textContent=qcFailed+' failed · '+qcPending+' pending';
 
   document.getElementById('poTotalCnt').textContent=POS.length;
+  function parseEtd(e){const parts=(e||'').split('.');if(parts.length<3)return null;let d=parseInt(parts[0]),m=parseInt(parts[1]),y=parseInt(parts[2]);if(isNaN(d)||isNaN(m)||isNaN(y))return null;if(y<100)y+=2000;return new Date(y,m-1,d);}
+  document.getElementById('poCnt24').textContent=POS.filter(p=>p.year===2024).length;
+  document.getElementById('poCnt25').textContent=POS.filter(p=>p.year===2025).length;
+  document.getElementById('poCnt26').textContent=POS.filter(p=>p.year===2026).length;
+  document.getElementById('poItemsCnt').textContent=ORDERS.length;
+  const _now=new Date();_now.setHours(0,0,0,0);
+  const _in30=new Date(_now);_in30.setDate(_now.getDate()+30);
+  document.getElementById('poUpcomingCnt').textContent=POS.filter(p=>{const d=parseEtd(p.etd);return d&&d>=_now&&d<=_in30;}).length;
+
   document.getElementById('yoyYr24').textContent=fmtK(YRVALS[0]);
   document.getElementById('yoyYr25').textContent=fmtK(YRVALS[1]);
   document.getElementById('yoyYr26').textContent=fmtK(YRVALS[2]);
