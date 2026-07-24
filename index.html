@@ -175,11 +175,8 @@ canvas{max-height:230px}
 </div>
 
 <div id="po" class="page">
-  <div class="kg g4">
+  <div class="kg" style="grid-template-columns:220px">
     <div class="kpi cb"><div class="kl">Total POs</div><div class="kv" id="poTotalCnt"></div><div class="ks">All orders</div></div>
-    <div class="kpi cn"><div class="kl">2024</div><div class="kv" id="poYr24"></div><div class="ks">Total value</div></div>
-    <div class="kpi co"><div class="kl">2025</div><div class="kv" id="poYr25"></div><div class="ks" id="poYr25chg"></div></div>
-    <div class="kpi cp"><div class="kl">2026</div><div class="kv" id="poYr26"></div><div class="ks" id="poYr26chg"></div></div>
   </div>
   <div class="card">
     <div class="ctitle"><span class="ctbar" style="background:var(--blue)"></span>Purchase Orders</div>
@@ -494,9 +491,6 @@ function initCharts(){
   document.getElementById('ovQcSub').textContent=qcFailed+' failed · '+qcPending+' pending';
 
   document.getElementById('poTotalCnt').textContent=POS.length;
-  document.getElementById('poYr24').textContent=fmtK(YRVALS[0]);
-  document.getElementById('poYr25').textContent=fmtK(YRVALS[1]);
-  document.getElementById('poYr26').textContent=fmtK(YRVALS[2]);
   document.getElementById('yoyYr24').textContent=fmtK(YRVALS[0]);
   document.getElementById('yoyYr25').textContent=fmtK(YRVALS[1]);
   document.getElementById('yoyYr26').textContent=fmtK(YRVALS[2]);
@@ -504,8 +498,6 @@ function initCharts(){
   const chg2026=YRVALS[1]?Math.round((YRVALS[2]/YRVALS[1]-1)*100):0;
   const chgTxt2025=(chg2025>=0?'+':'')+chg2025+'% vs 2024';
   const chgTxt2026=(chg2026>=0?'+':'')+chg2026+'% vs 2025';
-  document.getElementById('poYr25chg').textContent=chgTxt2025;
-  document.getElementById('poYr26chg').textContent=chgTxt2026;
   document.getElementById('yoyYr25chg').textContent=chgTxt2025;
   document.getElementById('yoyYr26chg').textContent=chgTxt2026;
   document.getElementById('personBars').innerHTML=PL.map((p,i)=>`
