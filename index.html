@@ -116,7 +116,7 @@ canvas{max-height:230px}
 
 <div class="hdr">
   <div class="hdr-t">📦 KS Follow-Up Orders Dashboard <span class="pill">2024–2026</span></div>
-  <div class="pill">31 POs · 121 Items · $521K Total</div>
+  <div class="pill" id="hdrPill"></div>
 </div>
 
 <!-- Notes Modal -->
@@ -142,11 +142,11 @@ canvas{max-height:230px}
 
 <div id="ov" class="page active">
   <div class="kg g5">
-    <div class="kpi cb"><div class="kl">Total POs</div><div class="kv">31</div><div class="ks">32 invoices</div></div>
-    <div class="kpi cn"><div class="kl">Total Value</div><div class="kv">$521K</div><div class="ks">All orders 2024–2026</div></div>
-    <div class="kpi cg"><div class="kl">Total Invoiced</div><div class="kv">$504K</div><div class="ks">Paid: $345K</div></div>
-    <div class="kpi co"><div class="kl">Outstanding</div><div class="kv">$158K</div><div class="ks">Awaiting payment</div></div>
-    <div class="kpi cg"><div class="kl">QC Passed</div><div class="kv">50</div><div class="ks">7 failed · 4 pending</div></div>
+    <div class="kpi cb"><div class="kl">Total POs</div><div class="kv" id="ovPosCnt"></div><div class="ks" id="ovInvCnt"></div></div>
+    <div class="kpi cn"><div class="kl">Total Value</div><div class="kv" id="ovTotalValue"></div><div class="ks">All orders 2024–2026</div></div>
+    <div class="kpi cg"><div class="kl">Total Invoiced</div><div class="kv" id="ovTotalInvoiced"></div><div class="ks" id="ovPaidSub"></div></div>
+    <div class="kpi co"><div class="kl">Outstanding</div><div class="kv" id="ovOutstanding"></div><div class="ks">Awaiting payment</div></div>
+    <div class="kpi cg"><div class="kl">QC Passed</div><div class="kv" id="ovQcPassed"></div><div class="ks" id="ovQcSub"></div></div>
   </div>
   <div class="row r21">
     <div class="card">
@@ -476,6 +476,23 @@ function initCharts(){
     return `<div class="yoy-item"><div class="yoy-season">${s}</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$${(v25/1000).toFixed(1)}K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$${(v26/1000).toFixed(1)}K</span></div><div class="yoy-chg" style="color:${col}">${arrow} ${Math.abs(chg)}% YoY</div></div>`;
   }).join('');
   const fmtK=v=>'$'+(v/1000).toFixed(1)+'K';
+  const totalValue=POS.reduce((a,p)=>a+(p.total||0),0);
+  const totalInvoiced=INVS.reduce((a,i)=>a+(i.amt||0),0);
+  const totalPaid=INVS.reduce((a,i)=>a+(i.paid||0),0);
+  const outstanding=totalInvoiced-totalPaid;
+  const qcPassed=QCS.filter(q=>q.result==='Passed').length;
+  const qcFailed=QCS.filter(q=>q.result==='Failed').length;
+  const qcPending=QCS.filter(q=>q.result==='Pending').length;
+  document.getElementById('hdrPill').textContent=POS.length+' POs · '+ORDERS.length+' Items · '+fmtK(totalValue)+' Total';
+  document.getElementById('ovPosCnt').textContent=POS.length;
+  document.getElementById('ovInvCnt').textContent=INVS.length+' invoices';
+  document.getElementById('ovTotalValue').textContent=fmtK(totalValue);
+  document.getElementById('ovTotalInvoiced').textContent=fmtK(totalInvoiced);
+  document.getElementById('ovPaidSub').textContent='Paid: '+fmtK(totalPaid);
+  document.getElementById('ovOutstanding').textContent=fmtK(outstanding);
+  document.getElementById('ovQcPassed').textContent=qcPassed;
+  document.getElementById('ovQcSub').textContent=qcFailed+' failed · '+qcPending+' pending';
+
   document.getElementById('poTotalCnt').textContent=POS.length;
   document.getElementById('poYr24').textContent=fmtK(YRVALS[0]);
   document.getElementById('poYr25').textContent=fmtK(YRVALS[1]);
