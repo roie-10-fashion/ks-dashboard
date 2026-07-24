@@ -119,7 +119,7 @@ canvas{max-height:230px}
 <body>
 
 <div class="hdr">
-  <div class="hdr-t">📦 KS Follow-Up Orders Dashboard <span class="pill">2024–2026</span></div>
+  <div class="hdr-t">📦 KS Follow-Up Orders Dashboard <span class="pill" id="yearRangePill">2024–2026</span></div>
   <div class="pill" id="hdrPill"></div>
 </div>
 
@@ -147,7 +147,7 @@ canvas{max-height:230px}
 <div id="ov" class="page active">
   <div class="kg g5">
     <div class="kpi cb"><div class="kl">Total POs</div><div class="kv" id="ovPosCnt"></div><div class="ks" id="ovInvCnt"></div></div>
-    <div class="kpi cn"><div class="kl">Total Value</div><div class="kv" id="ovTotalValue"></div><div class="ks">All orders 2024–2026</div></div>
+    <div class="kpi cn"><div class="kl">Total Value</div><div class="kv" id="ovTotalValue"></div><div class="ks" id="ovTotalValueSub">All orders</div></div>
     <div class="kpi cg"><div class="kl">Total Invoiced</div><div class="kv" id="ovTotalInvoiced"></div><div class="ks" id="ovPaidSub"></div></div>
     <div class="kpi co"><div class="kl">Outstanding</div><div class="kv" id="ovOutstanding"></div><div class="ks">Awaiting payment</div></div>
     <div class="kpi cg"><div class="kl">QC Passed</div><div class="kv" id="ovQcPassed"></div><div class="ks" id="ovQcSub"></div></div>
@@ -488,6 +488,13 @@ function initCharts(){
     return `<div class="yoy-item"><div class="yoy-season">${s}</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$${(v25/1000).toFixed(1)}K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$${(v26/1000).toFixed(1)}K</span></div><div class="yoy-chg" style="color:${col}">${arrow} ${Math.abs(chg)}% YoY</div></div>`;
   }).join('');
   const fmtK=v=>'$'+(v/1000).toFixed(1)+'K';
+  const _years=POS.map(p=>p.year);
+  const _minY=Math.min(..._years),_maxY=Math.max(..._years);
+  const _yearRange=_minY===_maxY?String(_minY):(_minY+'–'+_maxY);
+  document.getElementById('yearRangePill').textContent=_yearRange;
+  document.getElementById('ovTotalValueSub').textContent='All orders '+_yearRange;
+  document.title='KS Follow-Up Dashboard '+_yearRange;
+
   const totalValue=POS.reduce((a,p)=>a+(p.total||0),0);
   const totalInvoiced=INVS.reduce((a,i)=>a+(i.amt||0),0);
   const totalPaid=INVS.reduce((a,i)=>a+(i.paid||0),0);
