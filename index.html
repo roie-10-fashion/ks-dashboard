@@ -29,6 +29,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
 .tab:hover{color:var(--text)}.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
 .page{display:none;padding:20px 26px;max-width:1440px;margin:0 auto}.page.active{display:block}
 .kg{display:grid;gap:11px;margin-bottom:14px}
+.ticker-track{white-space:nowrap;font-size:12.5px;font-weight:600;color:var(--navy)}
+.ticker-track .titem{display:inline-block;margin-right:36px}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
 .g5{grid-template-columns:repeat(5,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
 .kpi{background:#fff;border-radius:9px;padding:15px 17px;box-shadow:var(--sh);border:1px solid var(--border);position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -175,13 +179,18 @@ canvas{max-height:230px}
 </div>
 
 <div id="po" class="page">
-  <div class="kg" style="grid-template-columns:repeat(6,1fr)">
+  <div class="kg" style="grid-template-columns:repeat(5,1fr)">
     <div class="kpi cb"><div class="kl">Total POs</div><div class="kv" id="poTotalCnt"></div><div class="ks">All orders</div></div>
     <div class="kpi cn"><div class="kl">2024</div><div class="kv" id="poCnt24"></div><div class="ks">POs</div></div>
     <div class="kpi co"><div class="kl">2025</div><div class="kv" id="poCnt25"></div><div class="ks">POs</div></div>
     <div class="kpi cp"><div class="kl">2026</div><div class="kv" id="poCnt26"></div><div class="ks">POs</div></div>
     <div class="kpi cg"><div class="kl">Total Items</div><div class="kv" id="poItemsCnt"></div><div class="ks">Across all POs</div></div>
-    <div class="kpi co"><div class="kl">Upcoming</div><div class="kv" id="poUpcomingCnt"></div><div class="ks">ETD next 30 days</div></div>
+  </div>
+  <div class="card" style="padding:12px 0;overflow:hidden;position:relative;margin-bottom:14px">
+    <div style="position:absolute;top:8px;left:16px;font-size:10px;font-weight:700;color:var(--navy);opacity:.5;z-index:2">🚚 UPCOMING SHIPMENTS</div>
+    <div style="white-space:nowrap;overflow:hidden;margin-top:16px">
+      <div class="ticker-track" id="etdTicker" style="display:inline-block"></div>
+    </div>
   </div>
   <div class="card">
     <div class="ctitle"><span class="ctbar" style="background:var(--blue)"></span>Purchase Orders</div>
@@ -502,8 +511,12 @@ function initCharts(){
   document.getElementById('poCnt26').textContent=POS.filter(p=>p.year===2026).length;
   document.getElementById('poItemsCnt').textContent=ORDERS.length;
   const _now=new Date();_now.setHours(0,0,0,0);
-  const _in30=new Date(_now);_in30.setDate(_now.getDate()+30);
-  document.getElementById('poUpcomingCnt').textContent=POS.filter(p=>{const d=parseEtd(p.etd);return d&&d>=_now&&d<=_in30;}).length;
+  const _upcoming=POS.filter(p=>{const d=parseEtd(p.etd);return d&&d>=_now;}).sort((a,b)=>parseEtd(a.etd)-parseEtd(b.etd));
+  const _tickerHtml=_upcoming.length?_upcoming.map(p=>`<span class="titem">📦 <b>${p.po}</b> · ${p.etd}${p.season?' · '+p.season:''}</span>`).join(''):'<span class="titem">No upcoming shipments</span>';
+  const _tickerEl=document.getElementById('etdTicker');
+  _tickerEl.innerHTML=_tickerHtml+_tickerHtml;
+  const _tickerDur=Math.max(20,_upcoming.length*4);
+  _tickerEl.style.animation='tickerScroll '+_tickerDur+'s linear infinite';
 
   document.getElementById('yoyYr24').textContent=fmtK(YRVALS[0]);
   document.getElementById('yoyYr25').textContent=fmtK(YRVALS[1]);
