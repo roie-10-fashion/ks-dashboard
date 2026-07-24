@@ -179,12 +179,13 @@ canvas{max-height:230px}
 </div>
 
 <div id="po" class="page">
-  <div class="kg" style="grid-template-columns:repeat(5,1fr)">
+  <div class="kg" style="grid-template-columns:repeat(6,1fr)">
     <div class="kpi cb"><div class="kl">Total POs</div><div class="kv" id="poTotalCnt"></div><div class="ks">All orders</div></div>
     <div class="kpi cn"><div class="kl">2024</div><div class="kv" id="poCnt24"></div><div class="ks">POs</div></div>
     <div class="kpi co"><div class="kl">2025</div><div class="kv" id="poCnt25"></div><div class="ks">POs</div></div>
     <div class="kpi cp"><div class="kl">2026</div><div class="kv" id="poCnt26"></div><div class="ks">POs</div></div>
     <div class="kpi cg"><div class="kl">Total Items</div><div class="kv" id="poItemsCnt"></div><div class="ks">Across all POs</div></div>
+    <div class="kpi co"><div class="kl">Next ETD</div><div class="kv" id="poNextEtd" style="font-size:20px"></div><div class="ks" id="poNextPOs"></div></div>
   </div>
   <div class="card" style="padding:12px 0;overflow:hidden;position:relative;margin-bottom:14px">
     <div style="position:absolute;top:8px;left:16px;font-size:10px;font-weight:700;color:var(--navy);opacity:.5;z-index:2">🚚 UPCOMING SHIPMENTS</div>
@@ -512,6 +513,15 @@ function initCharts(){
   document.getElementById('poItemsCnt').textContent=ORDERS.length;
   const _now=new Date();_now.setHours(0,0,0,0);
   const _upcoming=POS.filter(p=>{const d=parseEtd(p.etd);return d&&d>=_now;}).sort((a,b)=>parseEtd(a.etd)-parseEtd(b.etd));
+  if(_upcoming.length){
+    const _nextDate=parseEtd(_upcoming[0].etd).getTime();
+    const _nextPOs=_upcoming.filter(p=>parseEtd(p.etd).getTime()===_nextDate);
+    document.getElementById('poNextEtd').textContent=_upcoming[0].etd;
+    document.getElementById('poNextPOs').textContent=_nextPOs.map(p=>p.po).join(', ');
+  }else{
+    document.getElementById('poNextEtd').textContent='—';
+    document.getElementById('poNextPOs').textContent='No upcoming shipments';
+  }
   const _tickerHtml=_upcoming.length?_upcoming.map(p=>`<span class="titem">📦 <b>${p.po}</b> · ${p.etd}${p.season?' · '+p.season:''}</span>`).join(''):'<span class="titem">No upcoming shipments</span>';
   const _tickerEl=document.getElementById('etdTicker');
   _tickerEl.innerHTML=_tickerHtml+_tickerHtml;
