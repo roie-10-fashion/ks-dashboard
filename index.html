@@ -515,7 +515,7 @@ function initCharts(){
   const _tickerHtml=_upcoming.length?_upcoming.map(p=>`<span class="titem">📦 <b>${p.po}</b> · ${p.etd}${p.season?' · '+p.season:''}</span>`).join(''):'<span class="titem">No upcoming shipments</span>';
   const _tickerEl=document.getElementById('etdTicker');
   _tickerEl.innerHTML=_tickerHtml+_tickerHtml;
-  const _tickerDur=Math.max(20,_upcoming.length*4);
+  const _tickerDur=Math.max(45,_upcoming.length*9);
   _tickerEl.style.animation='tickerScroll '+_tickerDur+'s linear infinite';
 
   document.getElementById('yoyYr24').textContent=fmtK(YRVALS[0]);
