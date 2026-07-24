@@ -324,7 +324,7 @@ canvas{max-height:230px}
     <div class="card">
       <div class="ctitle"><span class="ctbar" style="background:var(--navy)"></span>Year Comparison</div>
       <canvas id="yearBar" style="max-height:190px"></canvas>
-      <div class="yoy-grid"><div class="yoy-item"><div class="yoy-season">SPRING</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$106.5K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$54.9K</span></div><div class="yoy-chg" style="color:#059669">▼ 48% YoY</div></div><div class="yoy-item"><div class="yoy-season">SUMMER</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$56.8K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$37.0K</span></div><div class="yoy-chg" style="color:#059669">▼ 35% YoY</div></div><div class="yoy-item"><div class="yoy-season">FALL</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$118.1K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$58.2K</span></div><div class="yoy-chg" style="color:#059669">▼ 51% YoY</div></div><div class="yoy-item"><div class="yoy-season">WINTER</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$60.7K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$0.0K</span></div><div class="yoy-chg" style="color:#059669">▼ 100% YoY</div></div></div>
+      <div class="yoy-grid" id="yoyGrid"></div>
     </div></div>
     </div>
   </div>
@@ -417,6 +417,8 @@ function yearOfEdt(e){const m=(e||'').match(/\.(\d{2,4})$/);if(!m)return null;co
 const YY25=['SPRING','SUMMER','FALL','WINTER'].map(b=>ORDERS.filter(o=>seasonBucket(o.season)===b&&yearOfEdt(o.edt)===2025).reduce((a,o)=>a+(o.total||0),0));
 const YY26=['SPRING','SUMMER','FALL','WINTER'].map(b=>ORDERS.filter(o=>seasonBucket(o.season)===b&&yearOfEdt(o.edt)===2026).reduce((a,o)=>a+(o.total||0),0));
 const YRVALS=[2024,2025,2026].map(y=>POS.filter(p=>p.year===y).reduce((a,p)=>a+(p.total||0),0));
+const poYear={};POS.forEach(p=>{poYear[p.sheet]=p.year;});
+const YRPAID=[2024,2025,2026].map(y=>INVS.filter(i=>poYear[i.po]===y).reduce((a,i)=>a+(i.paid||0),0));
 const gc='rgba(0,0,0,0.05)';
 Chart.defaults.font.family="'Inter',sans-serif";
 Chart.defaults.color='#6B7280';
@@ -431,8 +433,8 @@ function initCharts(){
   new Chart('seasonChart',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'CC'),borderRadius:4,label:'$'}]},
     options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>v>=1000?'$'+(v/1000).toFixed(0)+'K':'$'+v}}}}});
 
-  new Chart('yearChart',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{data:YRVALS,backgroundColor:['#94A3B8','#2D5BE3','#7C3AED'],borderRadius:4,label:'$'}]},
-    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
+  new Chart('yearChart',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{label:'Total',data:YRVALS,backgroundColor:'#2D5BE3CC',borderRadius:4},{label:'Paid',data:YRPAID,backgroundColor:'#059669CC',borderRadius:4}]},
+    options:{responsive:true,plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:8}}}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}});
 
   new Chart('invPie',{type:'doughnut',data:{labels:['Paid','Outstanding'],datasets:[{data:[345448,158414],backgroundColor:['#059669','#F59E0B'],borderWidth:2,borderColor:'#fff'}]},
     options:{cutout:'65%',responsive:true,plugins:{legend:{labels:{font:{size:10},boxWidth:8}}}}});
@@ -458,13 +460,21 @@ function initCharts(){
     {label:'2026',data:YY26,backgroundColor:'rgba(124,58,237,.85)',borderRadius:4}]},
     options:{responsive:true,plugins:{legend:{labels:{font:{size:11},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
 
-  new Chart('yearBar',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{data:YRVALS,backgroundColor:['#94A3B8','#2D5BE3','#7C3AED'],borderRadius:5,label:'$'}]},
-    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
+  new Chart('yearBar',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{label:'Total',data:YRVALS,backgroundColor:'#2D5BE3CC',borderRadius:5},{label:'Paid',data:YRPAID,backgroundColor:'#059669CC',borderRadius:5}]},
+    options:{responsive:true,plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:8}}}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}});
 
   new Chart('allSeasons',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'BB'),borderRadius:3,label:'$'}]},
     options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
 
   const maxP=Math.max(...PV);
+  const yoySeasons=['SPRING','SUMMER','FALL','WINTER'];
+  document.getElementById('yoyGrid').innerHTML=yoySeasons.map((s,i)=>{
+    const v25=YY25[i],v26=YY26[i];
+    const chg=v25?Math.round((1-v26/v25)*100):0;
+    const arrow=v26<v25?'▼':'▲';
+    const col=v26<v25?'#059669':'#DC2626';
+    return `<div class="yoy-item"><div class="yoy-season">${s}</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$${(v25/1000).toFixed(1)}K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$${(v26/1000).toFixed(1)}K</span></div><div class="yoy-chg" style="color:${col}">${arrow} ${Math.abs(chg)}% YoY</div></div>`;
+  }).join('');
   document.getElementById('personBars').innerHTML=PL.map((p,i)=>`
     <div class="pbar-item">
       <div class="pbar-hdr"><span style="font-weight:600">${p}</span><span class="mono" style="color:${pCol(p)};font-weight:700">${fmt(PV[i])}</span></div>
