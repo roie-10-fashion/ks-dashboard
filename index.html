@@ -176,10 +176,10 @@ canvas{max-height:230px}
 
 <div id="po" class="page">
   <div class="kg g4">
-    <div class="kpi cb"><div class="kl">Total POs</div><div class="kv">31</div><div class="ks">32 shipments</div></div>
-    <div class="kpi cn"><div class="kl">2024</div><div class="kv">$18K</div><div class="ks">Early orders</div></div>
-    <div class="kpi co"><div class="kl">2025</div><div class="kv">$313K</div><div class="ks">+1660% vs 2024</div></div>
-    <div class="kpi cp"><div class="kl">2026</div><div class="kv">$8K</div><div class="ks">חשבוניות שהופקו</div></div>
+    <div class="kpi cb"><div class="kl">Total POs</div><div class="kv" id="poTotalCnt"></div><div class="ks">All orders</div></div>
+    <div class="kpi cn"><div class="kl">2024</div><div class="kv" id="poYr24"></div><div class="ks">Total value</div></div>
+    <div class="kpi co"><div class="kl">2025</div><div class="kv" id="poYr25"></div><div class="ks" id="poYr25chg"></div></div>
+    <div class="kpi cp"><div class="kl">2026</div><div class="kv" id="poYr26"></div><div class="ks" id="poYr26chg"></div></div>
   </div>
   <div class="card">
     <div class="ctitle"><span class="ctbar" style="background:var(--blue)"></span>Purchase Orders</div>
@@ -312,9 +312,9 @@ canvas{max-height:230px}
 
 <div id="yoy" class="page">
   <div class="kg g3">
-    <div class="kpi cn"><div class="kl">2024 Total</div><div class="kv">$18K</div><div class="ks">First year</div></div>
-    <div class="kpi cb"><div class="kl">2025 Total</div><div class="kv">$313K</div><div class="ks">+1660% vs 2024</div></div>
-    <div class="kpi cp"><div class="kl">2026 Total</div><div class="kv">$8K</div><div class="ks">חשבוניות שהופקו</div></div>
+    <div class="kpi cn"><div class="kl">2024 Total</div><div class="kv" id="yoyYr24"></div><div class="ks">First year</div></div>
+    <div class="kpi cb"><div class="kl">2025 Total</div><div class="kv" id="yoyYr25"></div><div class="ks" id="yoyYr25chg"></div></div>
+    <div class="kpi cp"><div class="kl">2026 Total</div><div class="kv" id="yoyYr26"></div><div class="ks" id="yoyYr26chg"></div></div>
   </div>
   <div class="row r2">
     <div class="card">
@@ -475,6 +475,22 @@ function initCharts(){
     const col=v26<v25?'#059669':'#DC2626';
     return `<div class="yoy-item"><div class="yoy-season">${s}</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$${(v25/1000).toFixed(1)}K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$${(v26/1000).toFixed(1)}K</span></div><div class="yoy-chg" style="color:${col}">${arrow} ${Math.abs(chg)}% YoY</div></div>`;
   }).join('');
+  const fmtK=v=>'$'+(v/1000).toFixed(1)+'K';
+  document.getElementById('poTotalCnt').textContent=POS.length;
+  document.getElementById('poYr24').textContent=fmtK(YRVALS[0]);
+  document.getElementById('poYr25').textContent=fmtK(YRVALS[1]);
+  document.getElementById('poYr26').textContent=fmtK(YRVALS[2]);
+  document.getElementById('yoyYr24').textContent=fmtK(YRVALS[0]);
+  document.getElementById('yoyYr25').textContent=fmtK(YRVALS[1]);
+  document.getElementById('yoyYr26').textContent=fmtK(YRVALS[2]);
+  const chg2025=YRVALS[0]?Math.round((YRVALS[1]/YRVALS[0]-1)*100):0;
+  const chg2026=YRVALS[1]?Math.round((YRVALS[2]/YRVALS[1]-1)*100):0;
+  const chgTxt2025=(chg2025>=0?'+':'')+chg2025+'% vs 2024';
+  const chgTxt2026=(chg2026>=0?'+':'')+chg2026+'% vs 2025';
+  document.getElementById('poYr25chg').textContent=chgTxt2025;
+  document.getElementById('poYr26chg').textContent=chgTxt2026;
+  document.getElementById('yoyYr25chg').textContent=chgTxt2025;
+  document.getElementById('yoyYr26chg').textContent=chgTxt2026;
   document.getElementById('personBars').innerHTML=PL.map((p,i)=>`
     <div class="pbar-item">
       <div class="pbar-hdr"><span style="font-weight:600">${p}</span><span class="mono" style="color:${pCol(p)};font-weight:700">${fmt(PV[i])}</span></div>
