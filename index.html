@@ -506,7 +506,7 @@ function initCharts(){
   const totalValue=POS.reduce((a,p)=>a+(p.total||0),0);
   const totalInvoiced=INVS.reduce((a,i)=>a+(i.amt||0),0);
   const totalPaid=INVS.reduce((a,i)=>a+(i.paid||0),0);
-  const outstanding=totalInvoiced-totalPaid;
+  const outstanding=INVS.reduce((a,i)=>{const pct=i.amt>0?i.paid/i.amt*100:0;return pct>=95?a:a+((i.amt||0)-(i.paid||0));},0);
   const qcPassed=QCS.filter(q=>q.result==='Passed').length;
   const qcFailed=QCS.filter(q=>q.result==='Failed').length;
   const qcPending=QCS.filter(q=>q.result==='Pending').length;
@@ -628,7 +628,10 @@ function renderInv(){
 function updateInvKpis(list){
   const ti=list.reduce((a,i)=>a+(i.amt||0),0);
   const tp=list.reduce((a,i)=>a+(i.paid||0),0);
-  const out=ti-tp;
+  const out=list.reduce((a,i)=>{
+    const pct=i.amt>0?i.paid/i.amt*100:0;
+    return pct>=95?a:a+((i.amt||0)-(i.paid||0));
+  },0);
   const rate=ti?Math.round(tp/ti*100):0;
   document.getElementById('invTotalInvoiced').textContent=fmt(ti);
   document.getElementById('invCntSub').textContent=list.length+' invoices';
