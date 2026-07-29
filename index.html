@@ -434,8 +434,9 @@ function yearOfEdt(e){const m=(e||'').match(/\.(\d{2,4})$/);if(!m)return null;co
 const YY25=['SPRING','SUMMER','FALL','WINTER'].map(b=>ORDERS.filter(o=>seasonBucket(o.season)===b&&yearOfEdt(o.edt)===2025).reduce((a,o)=>a+(o.total||0),0));
 const YY26=['SPRING','SUMMER','FALL','WINTER'].map(b=>ORDERS.filter(o=>seasonBucket(o.season)===b&&yearOfEdt(o.edt)===2026).reduce((a,o)=>a+(o.total||0),0));
 const YRVALS=[2024,2025,2026].map(y=>POS.filter(p=>p.year===y).reduce((a,p)=>a+(p.total||0),0));
-const poYear={};POS.forEach(p=>{poYear[p.sheet]=p.year;});
-const YRPAID=[2024,2025,2026].map(y=>INVS.filter(i=>poYear[i.po]===y).reduce((a,i)=>a+(i.paid||0),0));
+function poKeyJS(s){s=String(s||'');const pm=s.match(/PO-0*(\d+)/);const em=s.match(/ETD-?(\d{2}\.\d{2}\.\d{2,4})/);let po=pm?pm[1]:s.trim();let etd=em?em[1]:'';const parts=etd.split('.');if(parts.length===3&&parts[2].length===4)parts[2]=parts[2].slice(2);etd=parts.join('.');return po+'|'+etd;}
+const poYear={};POS.forEach(p=>{poYear[poKeyJS(p.sheet)]=p.year;});
+const YRPAID=[2024,2025,2026].map(y=>INVS.filter(i=>poYear[poKeyJS(i.po)]===y).reduce((a,i)=>a+(i.paid||0),0));
 const gc='rgba(0,0,0,0.05)';
 Chart.defaults.font.family="'Inter',sans-serif";
 Chart.defaults.color='#6B7280';
@@ -644,7 +645,7 @@ function filterInv(){
     const status=pct>=95?'paid':pct>0?'partial':'pending';
     return (!s||i.po.toLowerCase().includes(s)||i.booking.toLowerCase().includes(s)||(i.inv||'').toLowerCase().includes(s))
       &&(!st||status===st)
-      &&(!_invYearSel||poYear[i.po]===_invYearSel);
+      &&(!_invYearSel||poYear[poKeyJS(i.po)]===_invYearSel);
   });
   document.getElementById('invCnt').textContent=filtered.length+' / '+INVS.length;
   renderInvData(filtered);
@@ -653,7 +654,7 @@ function filterInv(){
 let _invYearSel='';
 function setInvYear(y){_invYearSel=y;renderInvYearTabs();filterInv();}
 function renderInvYearTabs(){
-  const yrs=[...new Set(INVS.map(i=>poYear[i.po]).filter(Boolean))].sort((a,b)=>a-b);
+  const yrs=[...new Set(INVS.map(i=>poYear[poKeyJS(i.po)]).filter(Boolean))].sort((a,b)=>a-b);
   const tabs=['<span class="ytab'+(_invYearSel===''?' active':'')+'" onclick="setInvYear(\'\')">All</span>']
     .concat(yrs.map(y=>'<span class="ytab'+(_invYearSel===y?' active':'')+'" onclick="setInvYear('+y+')">'+y+'</span>'));
   document.getElementById('invYearTabs').innerHTML=tabs.join('');
