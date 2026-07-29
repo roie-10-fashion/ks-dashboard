@@ -444,6 +444,7 @@ const C=['#2D5BE3','#DB2777','#0891B2','#7C3AED','#D97706','#059669','#374151','
 function pCol(p){const m={'ANNIE':'#DB2777','JOEY':'#2D5BE3','HELEN':'#0891B2','BLAIR':'#7C3AED','BELLA':'#D97706','ELISE':'#059669'};return m[p]||'#6B7280';}
 function fmt(n){return n?'$'+Number(n).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';}
 function fmtKG(v){return '$'+((v||0)/1000).toFixed(1)+'K';}
+function invYear(d){const m=(d||'').match(/\.(\d{4})$/);return m?parseInt(m[1]):null;}
 function b(t,c){return `<span class="badge ${c}">${t}</span>`;}
 function qcB(r){return b(r,r==='Passed'?'bg':r==='Failed'?'br':'bo');}
 function lk(u,t){return u?`<a href="javascript:void(0)" onclick="openViewer('${u}','${t}')" style="color:var(--blue);font-size:11px;cursor:pointer">🔗 ${t}</a>`:'—';}
@@ -645,7 +646,7 @@ function filterInv(){
     const status=pct>=95?'paid':pct>0?'partial':'pending';
     return (!s||i.po.toLowerCase().includes(s)||i.booking.toLowerCase().includes(s)||(i.inv||'').toLowerCase().includes(s))
       &&(!st||status===st)
-      &&(!_invYearSel||poYear[poKeyJS(i.po)]===_invYearSel);
+      &&(!_invYearSel||invYear(i.date)===_invYearSel);
   });
   document.getElementById('invCnt').textContent=filtered.length+' / '+INVS.length;
   renderInvData(filtered);
@@ -654,7 +655,7 @@ function filterInv(){
 let _invYearSel='';
 function setInvYear(y){_invYearSel=y;renderInvYearTabs();filterInv();}
 function renderInvYearTabs(){
-  const yrs=[...new Set(INVS.map(i=>poYear[poKeyJS(i.po)]).filter(Boolean))].sort((a,b)=>a-b);
+  const yrs=[...new Set(INVS.map(i=>invYear(i.date)).filter(Boolean))].sort((a,b)=>a-b);
   const tabs=['<span class="ytab'+(_invYearSel===''?' active':'')+'" onclick="setInvYear(\'\')">All</span>']
     .concat(yrs.map(y=>'<span class="ytab'+(_invYearSel===y?' active':'')+'" onclick="setInvYear('+y+')">'+y+'</span>'));
   document.getElementById('invYearTabs').innerHTML=tabs.join('');
