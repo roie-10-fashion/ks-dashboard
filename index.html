@@ -630,11 +630,11 @@ function updateInvKpis(list){
   const tp=list.reduce((a,i)=>a+(i.paid||0),0);
   const out=ti-tp;
   const rate=ti?Math.round(tp/ti*100):0;
-  document.getElementById('invTotalInvoiced').textContent=fmtKG(ti);
+  document.getElementById('invTotalInvoiced').textContent=fmt(ti);
   document.getElementById('invCntSub').textContent=list.length+' invoices';
-  document.getElementById('invTotalPaid').textContent=fmtKG(tp);
+  document.getElementById('invTotalPaid').textContent=fmt(tp);
   document.getElementById('invPaidPctSub').textContent=rate+'% of total';
-  document.getElementById('invOutstanding').textContent=fmtKG(out);
+  document.getElementById('invOutstanding').textContent=fmt(out);
   document.getElementById('invPayRate').textContent=rate+'%';
   document.getElementById('invPayRateBar').style.width=rate+'%';
 }
