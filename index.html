@@ -30,6 +30,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
 .page{display:none;padding:20px 26px;max-width:1440px;margin:0 auto}.page.active{display:block}
 .kg{display:grid;gap:11px;margin-bottom:14px}
 .ticker-track{white-space:nowrap;font-size:12.5px;font-weight:600;color:var(--navy)}
+.ytab{border:1px solid #E2E5EC;background:#fff;border-radius:8px;padding:7px 18px;font-size:12.5px;font-weight:700;color:#8892a6;cursor:pointer;margin-right:6px;display:inline-block;transition:all .15s}
+.ytab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.ytab:hover{border-color:var(--blue)}
+
 .ticker-track .titem{display:inline-block;margin-right:36px}
 @keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
@@ -228,15 +232,16 @@ canvas{max-height:230px}
 
 <div id="inv" class="page">
   <div class="kg g4">
-    <div class="kpi cn"><div class="kl">Total Invoiced</div><div class="kv">$504K</div><div class="ks">32 invoices</div></div>
-    <div class="kpi cg"><div class="kl">Total Paid</div><div class="kv">$345K</div><div class="ks">69% of total</div></div>
-    <div class="kpi co"><div class="kl">Outstanding</div><div class="kv">$158K</div><div class="ks">Awaiting payment</div></div>
-    <div class="kpi cb"><div class="kl">Payment Rate</div><div class="kv">69%</div>
-      <div class="prog-bar"><div class="prog-fill" style="width:69%;background:var(--green)"></div></div>
+    <div class="kpi cn"><div class="kl">Total Invoiced</div><div class="kv" id="invTotalInvoiced"></div><div class="ks" id="invCntSub"></div></div>
+    <div class="kpi cg"><div class="kl">Total Paid</div><div class="kv" id="invTotalPaid"></div><div class="ks" id="invPaidPctSub"></div></div>
+    <div class="kpi co"><div class="kl">Outstanding</div><div class="kv" id="invOutstanding"></div><div class="ks">Awaiting payment</div></div>
+    <div class="kpi cb"><div class="kl">Payment Rate</div><div class="kv" id="invPayRate"></div>
+      <div class="prog-bar"><div class="prog-fill" id="invPayRateBar" style="width:0%;background:var(--green)"></div></div>
     </div>
   </div>
   <div class="card">
     <div class="ctitle"><span class="ctbar" style="background:var(--navy)"></span>Invoice List</div>
+    <div class="ctrl" id="invYearTabs" style="margin-bottom:8px"></div>
     <div class="ctrl">
       <input class="sb" id="invSrch" type="text" placeholder="🔍 Search PO, booking, invoice no..." oninput="filterInv()">
       <select class="fs" id="invStatus" onchange="filterInv()">
@@ -624,10 +629,19 @@ function filterInv(){
     const pct=i.amt>0?i.paid/i.amt*100:0;
     const status=pct>=95?'paid':pct>0?'partial':'pending';
     return (!s||i.po.toLowerCase().includes(s)||i.booking.toLowerCase().includes(s)||(i.inv||'').toLowerCase().includes(s))
-      &&(!st||status===st);
+      &&(!st||status===st)
+      &&(!_invYearSel||poYear[i.po]===_invYearSel);
   });
   document.getElementById('invCnt').textContent=filtered.length+' / '+INVS.length;
   renderInvData(filtered);
+}
+let _invYearSel='';
+function setInvYear(y){_invYearSel=y;renderInvYearTabs();filterInv();}
+function renderInvYearTabs(){
+  const yrs=[...new Set(INVS.map(i=>poYear[i.po]).filter(Boolean))].sort((a,b)=>a-b);
+  const tabs=['<span class="ytab'+(_invYearSel===''?' active':'')+'" onclick="setInvYear(\'\')">All</span>']
+    .concat(yrs.map(y=>'<span class="ytab'+(_invYearSel===y?' active':'')+'" onclick="setInvYear('+y+')">'+y+'</span>'));
+  document.getElementById('invYearTabs').innerHTML=tabs.join('');
 }
 function rstInv(){['invSrch','invStatus'].forEach(id=>document.getElementById(id).value='');filterInv();}
 function renderInvData(d){
@@ -743,6 +757,15 @@ window.addEventListener('DOMContentLoaded',()=>{
   initCharts();
   renderPO(POS); document.getElementById('poCnt').textContent=POS.length+' / '+POS.length;
   renderLines(ORDERS); document.getElementById('lineCnt').textContent=ORDERS.length+' / '+ORDERS.length;
+  renderInvYearTabs();
+  document.getElementById('invTotalInvoiced').textContent=fmtK(totalInvoiced);
+  document.getElementById('invCntSub').textContent=INVS.length+' invoices';
+  document.getElementById('invTotalPaid').textContent=fmtK(totalPaid);
+  const _payRate=totalInvoiced?Math.round(totalPaid/totalInvoiced*100):0;
+  document.getElementById('invPaidPctSub').textContent=_payRate+'% of total';
+  document.getElementById('invOutstanding').textContent=fmtK(outstanding);
+  document.getElementById('invPayRate').textContent=_payRate+'%';
+  document.getElementById('invPayRateBar').style.width=_payRate+'%';
   renderInv(); document.getElementById('invCnt').textContent=INVS.length+' / '+INVS.length;
   renderQC(QCS); document.getElementById('qcCnt').textContent=QCS.length+' / '+QCS.length;
   renderTests(); document.getElementById('testCnt').textContent=TESTS.length+' / '+TESTS.length;
