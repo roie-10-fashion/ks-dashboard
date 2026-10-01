@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0F1B3C">
+<meta name="theme-color" content="#121212">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -218,6 +218,88 @@ canvas{max-height:230px}
 @media(max-width:1300px){.kc-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media(max-width:900px){.kc-grid{grid-template-columns:repeat(3,minmax(0,1fr));padding:14px;gap:10px}.kc-head{grid-template-columns:1fr;text-align:center;padding:18px 14px 10px}.kc-head .l{display:none}.kc-head .r{justify-self:center}.kc-nav{gap:16px}.kc-tools{padding:10px 14px}.kc-pp{grid-template-columns:1fr;overflow:auto}.kc-big{min-height:420px;border-right:0;border-bottom:1px solid #CFC8BC}.kc-info{padding:26px 20px}}
 @media(max-width:560px){.kc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kc-srch{width:200px}}
+
+/* ══════════ LUXURY THEME — cream · gray · black (Oct 2026) ══════════ */
+:root{
+  --bg:#F3EEE5;--white:#FBF9F5;--navy:#121212;--blue:#121212;--blue-lt:#E7E2D9;
+  --green:#4E7A4E;--green-lt:#E4EADD;--orange:#A8742A;--orange-lt:#F3E9D6;
+  --red:#A43A32;--red-lt:#F3E1DC;--purple:#6F675D;--purple-lt:#E7E2D9;
+  --teal:#5E5A54;--pink:#8C6E62;--gray:#57534C;--border:#CFC8BC;--text:#121212;
+  --sh:none;--shm:0 10px 26px -18px rgba(0,0,0,.45);
+  --lux-font:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+body{font-family:var(--lux-font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+/* header */
+.hdr{background:#121212;height:64px;border-bottom:1px solid #2a2a2a}
+.hdr-t{color:#F3EEE5;font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:17px;letter-spacing:3.5px;text-transform:uppercase}
+.pill{background:transparent;border:1px solid rgba(243,238,229,.35);color:#E7E2D9;border-radius:0;font-family:var(--lux-font);font-size:11px;letter-spacing:1.2px;padding:4px 10px;font-weight:500;text-transform:none}
+/* tabs */
+.nav{background:#121212;border-bottom:0;box-shadow:none;justify-content:center;gap:4px}
+.tab{color:#BDB6AB;font-family:var(--lux-font);font-size:11.5px;font-weight:500;letter-spacing:1.8px;padding:13px 16px;border-bottom:1px solid transparent}
+.tab:hover{color:#F3EEE5}
+.tab.active{color:#F3EEE5;border-bottom-color:#F3EEE5}
+/* cards / kpis */
+.card{background:var(--white);border-radius:0;border:1px solid var(--border);box-shadow:none;padding:20px}
+.kpi{background:var(--white);border-radius:0;border:1px solid var(--border);box-shadow:none;padding:16px 18px}
+.kpi::before{display:none}
+.kl{font-size:11px;font-weight:500;color:#57534C;letter-spacing:1.6px}
+.kv{font-size:28px;font-weight:300;letter-spacing:-.5px;color:#121212;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.ks{font-size:12px;color:#57534C}
+.cb .kv,.cn .kv,.cp .kv,.ct .kv,.cpk .kv{color:#121212}
+.cg .kv{color:var(--green)}.co .kv{color:var(--orange)}.cr .kv{color:var(--red)}
+/* Next ETD — highlighted with a black frame */
+.kpi:has(#poNextEtd){border:2px solid #121212;padding:15px 17px}
+.kpi:has(#poNextEtd) .kv{color:#121212;font-weight:500}
+/* section titles */
+.ctitle{font-size:11.5px;font-weight:600;color:#121212;letter-spacing:1.8px;margin-bottom:14px;gap:10px}
+.ctbar{background:#121212!important;width:16px;height:1px;border-radius:0}
+/* tables */
+table{font-size:12.5px}
+th{background:#E7E2D9;color:#121212;font-size:10.5px;font-weight:600;letter-spacing:1.2px;border-bottom:1px solid #121212;padding:9px 10px}
+td{border-bottom:1px solid #E2DBCF;padding:8px 10px;color:#121212}
+tr:hover td{background:#F3EEE5}
+.mono{font-family:var(--lux-font);font-size:12px;font-variant-numeric:tabular-nums;letter-spacing:.2px}
+td a{color:#121212!important;text-decoration:underline!important;text-decoration-color:#B5AEA3!important;text-underline-offset:3px}
+td a:hover{text-decoration-color:#121212!important}
+/* badges — outlined, square */
+.badge,.bgr{border-radius:0;font-weight:600;letter-spacing:.6px;font-size:10.5px;padding:3px 7px;border:1px solid transparent}
+.bg{background:#E4EADD;color:#2F4F2F;border-color:#BFCBB5}
+.br{background:#F3E1DC;color:#7E2A23;border-color:#DDB5AD}
+.bo{background:#F3E9D6;color:#6B4A18;border-color:#DCC9A3}
+.bb,.bp,.bt,.bpk{background:#E7E2D9;color:#121212;border-color:#CFC8BC}
+.bgr{background:transparent;color:#3A3633;border-color:#CFC8BC;display:inline-block}
+/* inputs & buttons */
+.sb,.fs{background:#FBF9F5;border:1px solid #CFC8BC;border-radius:0;font-family:var(--lux-font);font-size:12.5px;color:#121212;padding:7px 10px}
+.sb:focus,.fs:focus{border-color:#121212}
+.clbl{font-size:12px;color:#57534C;letter-spacing:.4px}
+.rbtn{background:#121212;border:1px solid #121212;border-radius:0;color:#F3EEE5;font-weight:500;letter-spacing:1.4px;text-transform:uppercase;font-size:10.5px;padding:7px 14px}
+.rbtn:hover{background:#F3EEE5;color:#121212}
+.ytab{border-radius:0;border:1px solid #CFC8BC;background:transparent;color:#57534C;font-weight:500;letter-spacing:1px}
+.ytab.active{background:#121212;color:#F3EEE5;border-color:#121212}
+.ytab:hover{border-color:#121212}
+/* progress / bars / yoy */
+.prog-bar,.pbar-bg{background:#E7E2D9;border-radius:0}
+.prog-fill,.pbar-fill{border-radius:0}
+.pbar-hdr{font-size:13px}
+.yoy-item{background:#F3EEE5;border-radius:0;border:1px solid #CFC8BC}
+.yoy-season{color:#121212;letter-spacing:1.4px;font-weight:600}
+/* upcoming shipments ticker — black bar, cream text, 📦 kept */
+.card:has(#etdTicker){background:#121212;border-color:#121212}
+.card:has(#etdTicker)>div:first-child{color:#E7E2D9!important;opacity:.85!important;letter-spacing:1.8px;font-weight:500!important}
+.ticker-track{color:#F3EEE5;font-family:var(--lux-font);font-weight:400;font-size:13px;letter-spacing:.4px}
+.ticker-track b{font-weight:600;color:#fff}
+/* modal */
+.modal-box{border-radius:0;background:#FBF9F5;border:1px solid #121212;box-shadow:0 20px 50px -20px rgba(0,0,0,.5)}
+.modal-title{color:#121212;letter-spacing:1px;text-transform:uppercase;font-size:12.5px}
+.modal-body{color:#121212}
+/* PDF viewers (inline styles re-inserted by the update script) */
+#pdfModal,#pdfViewer,#pdfModal>div:first-child,#pdfViewer>div:first-child{background:#121212!important}
+#pdfModal>div:last-child,#pdfViewer>div:last-child{background:#8E3129!important}
+/* items catalog sits flush on the cream page */
+#items .kc{border-color:#CFC8BC}
+@media(max-width:768px){.hdr{height:52px}.hdr-t{font-size:12px;letter-spacing:2px}.nav{justify-content:flex-start}.tab{padding:11px 10px;font-size:10px;letter-spacing:1.2px}.kv{font-size:22px}}
+#po .kv{color:#121212}
+@media(max-width:768px){.hdr{height:auto;min-height:52px;padding:10px 12px;flex-wrap:wrap;gap:6px}#po .kg{grid-template-columns:repeat(2,1fr)!important}}
 </style>
 </head>
 <body>
@@ -574,11 +656,11 @@ const YRVALS=[2024,2025,2026].map(y=>POS.filter(p=>p.year===y).reduce((a,p)=>a+(
 function poKeyJS(s){s=String(s||'');const pm=s.match(/PO-0*(\d+)/);const em=s.match(/ETD-?(\d{2}\.\d{2}\.\d{2,4})/);let po=pm?pm[1]:s.trim();let etd=em?em[1]:'';const parts=etd.split('.');if(parts.length===3&&parts[2].length===4)parts[2]=parts[2].slice(2);etd=parts.join('.');return po+'|'+etd;}
 const poYear={};POS.forEach(p=>{poYear[poKeyJS(p.sheet)]=p.year;});
 const YRPAID=[2024,2025,2026].map(y=>INVS.filter(i=>poYear[poKeyJS(i.po)]===y).reduce((a,i)=>a+(i.paid||0),0));
-const gc='rgba(0,0,0,0.05)';
-Chart.defaults.font.family="'Inter',sans-serif";
-Chart.defaults.color='#6B7280';
-const C=['#2D5BE3','#DB2777','#0891B2','#7C3AED','#D97706','#059669','#374151','#DC2626'];
-function pCol(p){const m={'ANNIE':'#DB2777','JOEY':'#2D5BE3','HELEN':'#0891B2','BLAIR':'#7C3AED','BELLA':'#D97706','ELISE':'#059669'};return m[p]||'#6B7280';}
+const gc='rgba(18,18,18,0.07)';
+Chart.defaults.font.family="'Helvetica Neue',Helvetica,Arial,sans-serif";
+Chart.defaults.color='#3A3633';
+const C=['#121212','#8C7B6B','#B9AC9A','#5E5A54','#D2C6B5','#3A3633','#A08F7C','#6F675D'];
+function pCol(p){const m={'ANNIE':'#121212','JOEY':'#8C7B6B','HELEN':'#B9AC9A','BLAIR':'#5E5A54','BELLA':'#C7A982','ELISE':'#7A8471'};return m[p]||'#8F897F';}
 function fmt(n){return n?'$'+Number(n).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';}
 function fmtKG(v){return '$'+((v||0)/1000).toFixed(1)+'K';}
 function invYear(i){const m=(i.date||'').match(/\.(\d{4})$/);if(m)return parseInt(m[1]);return poYear[poKeyJS(i.po)]||null;}
@@ -587,40 +669,40 @@ function qcB(r){return b(r,r==='Passed'?'bg':r==='Failed'?'br':'bo');}
 function lk(u,t){return u?`<a href="javascript:void(0)" onclick="openViewer('${u}','${t}')" style="color:var(--blue);font-size:11px;cursor:pointer">🔗 ${t}</a>`:'—';}
 
 function initCharts(){
-  new Chart('seasonChart',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'CC'),borderRadius:4,label:'$'}]},
+  new Chart('seasonChart',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'CC'),borderRadius:0,label:'$'}]},
     options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>v>=1000?'$'+(v/1000).toFixed(0)+'K':'$'+v}}}}});
 
-  new Chart('yearChart',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{label:'Total',data:YRVALS,backgroundColor:'#2D5BE3CC',borderRadius:4},{label:'Paid',data:YRPAID,backgroundColor:'#059669CC',borderRadius:4}]},
+  new Chart('yearChart',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{label:'Total',data:YRVALS,backgroundColor:'#121212E6',borderRadius:0},{label:'Paid',data:YRPAID,backgroundColor:'#8C9F86E6',borderRadius:0}]},
     options:{responsive:true,plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:8}}}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}});
 
-  new Chart('invPie',{type:'doughnut',data:{labels:['Paid','Outstanding'],datasets:[{data:[345448,158414],backgroundColor:['#059669','#F59E0B'],borderWidth:2,borderColor:'#fff'}]},
+  new Chart('invPie',{type:'doughnut',data:{labels:['Paid','Outstanding'],datasets:[{data:[345448,158414],backgroundColor:['#4E7A4E','#C9A36A'],borderWidth:2,borderColor:'#FBF9F5'}]},
     options:{cutout:'65%',responsive:true,plugins:{legend:{labels:{font:{size:10},boxWidth:8}}}}});
 
-  new Chart('personChart',{type:'bar',data:{labels:PL,datasets:[{data:PV,backgroundColor:PL.map(p=>pCol(p)+'CC'),borderRadius:4,label:'$'}]},
+  new Chart('personChart',{type:'bar',data:{labels:PL,datasets:[{data:PV,backgroundColor:PL.map(p=>pCol(p)+'CC'),borderRadius:0,label:'$'}]},
     options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:gc},ticks:{font:{size:10},callback:v=>'$'+(v/1000).toFixed(0)+'K'}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
 
   new Chart('yoySmall',{type:'bar',data:{labels:['SPRING','SUMMER','FALL','WINTER'],datasets:[
-    {label:'2025',data:YY25,backgroundColor:'rgba(45,91,227,.75)',borderRadius:3},
-    {label:'2026',data:YY26,backgroundColor:'rgba(124,58,237,.75)',borderRadius:3}]},
+    {label:'2025',data:YY25,backgroundColor:'rgba(185,172,154,.95)',borderRadius:0},
+    {label:'2026',data:YY26,backgroundColor:'rgba(18,18,18,.9)',borderRadius:0}]},
     options:{responsive:true,plugins:{legend:{labels:{font:{size:10},boxWidth:8}}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
 
   const seasons=['SPRING 25','SUMMER 25','FALL 25','WINTER 25','SPRING 26','SUMMER 26','FALL 26'];
   const people=['ANNIE','JOEY','HELEN','BLAIR','BELLA'];
   const tsD=people.map(p=>{
-    return {label:p,data:seasons.map(s=>ORDERS.filter(o=>o.person===p&&o.season===s).reduce((a,b)=>a+b.total,0)),backgroundColor:pCol(p)+'BB',borderRadius:2};
+    return {label:p,data:seasons.map(s=>ORDERS.filter(o=>o.person===p&&o.season===s).reduce((a,b)=>a+b.total,0)),backgroundColor:pCol(p)+'BB',borderRadius:0};
   });
   new Chart('teamSeason',{type:'bar',data:{labels:seasons,datasets:tsD},
     options:{responsive:true,plugins:{legend:{labels:{font:{size:10},boxWidth:8}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:9}}},y:{stacked:true,grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
 
   new Chart('yoyMain',{type:'bar',data:{labels:['SPRING','SUMMER','FALL','WINTER'],datasets:[
-    {label:'2025',data:YY25,backgroundColor:'rgba(45,91,227,.85)',borderRadius:4},
-    {label:'2026',data:YY26,backgroundColor:'rgba(124,58,237,.85)',borderRadius:4}]},
+    {label:'2025',data:YY25,backgroundColor:'rgba(185,172,154,.95)',borderRadius:0},
+    {label:'2026',data:YY26,backgroundColor:'rgba(18,18,18,.9)',borderRadius:0}]},
     options:{responsive:true,plugins:{legend:{labels:{font:{size:11},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
 
-  new Chart('yearBar',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{label:'Total',data:YRVALS,backgroundColor:'#2D5BE3CC',borderRadius:5},{label:'Paid',data:YRPAID,backgroundColor:'#059669CC',borderRadius:5}]},
+  new Chart('yearBar',{type:'bar',data:{labels:['2024','2025','2026'],datasets:[{label:'Total',data:YRVALS,backgroundColor:'#121212E6',borderRadius:0},{label:'Paid',data:YRPAID,backgroundColor:'#8C9F86E6',borderRadius:0}]},
     options:{responsive:true,plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:8}}}},scales:{x:{grid:{display:false}},y:{grid:{color:gc},ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}});
 
-  new Chart('allSeasons',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'BB'),borderRadius:3,label:'$'}]},
+  new Chart('allSeasons',{type:'bar',data:{labels:SL,datasets:[{data:SV,backgroundColor:SL.map((_,i)=>C[i%C.length]+'BB'),borderRadius:0,label:'$'}]},
     options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:gc},ticks:{font:{size:10},callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
 
   const maxP=Math.max(...PV);
@@ -629,7 +711,7 @@ function initCharts(){
     const v25=YY25[i],v26=YY26[i];
     const chg=v25?Math.round((1-v26/v25)*100):0;
     const arrow=v26<v25?'▼':'▲';
-    const col=v26<v25?'#059669':'#DC2626';
+    const col=v26<v25?'#4E7A4E':'#A43A32';
     return `<div class="yoy-item"><div class="yoy-season">${s}</div><div class="yoy-row"><span style="color:var(--blue)">2025</span><span class="mono">$${(v25/1000).toFixed(1)}K</span></div><div class="yoy-row"><span style="color:var(--purple)">2026</span><span class="mono">$${(v26/1000).toFixed(1)}K</span></div><div class="yoy-chg" style="color:${col}">${arrow} ${Math.abs(chg)}% YoY</div></div>`;
   }).join('');
   const fmtK=v=>'$'+(v/1000).toFixed(1)+'K';
@@ -691,7 +773,7 @@ function initCharts(){
   document.getElementById('yoyYr26chg').textContent=chgTxt2026;
   document.getElementById('personBars').innerHTML=PL.map((p,i)=>`
     <div class="pbar-item">
-      <div class="pbar-hdr"><span style="font-weight:600">${p}</span><span class="mono" style="color:${pCol(p)};font-weight:700">${fmt(PV[i])}</span></div>
+      <div class="pbar-hdr"><span style="font-weight:600">${p}</span><span class="mono" style="color:#121212;font-weight:700">${fmt(PV[i])}</span></div>
       <div class="pbar-bg"><div class="pbar-fill" style="width:${(PV[i]/maxP*100).toFixed(0)}%;background:${pCol(p)}"></div></div>
     </div>`).join('');
 
@@ -726,7 +808,7 @@ function renderLines(d){
     <td style="font-weight:500;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${o.item}</td>
     <td class="mono" style="font-size:10px">${o.code||'—'}</td>
     <td style="font-size:11px;color:var(--gray)">${o.color||'—'}</td>
-    <td style="font-weight:600;color:${pCol(o.person)}">${o.person||'—'}</td>
+    <td style="font-weight:600;color:#121212">${o.person||'—'}</td>
     <td>${o.season?b(o.season,'bgr'):'—'}</td>
     <td class="mono" style="font-size:11px">${o.edt||'—'}</td>
     <td style="text-align:center">${o.amount||'—'}</td>
@@ -805,7 +887,7 @@ function kcRender(){
     let idx=se?d.seasons.indexOf(se):kcLatestImgIdx(d);
     const img=idx>=0?d.imgs[idx]:null;
     const ph=img?`<img src="${kcU('t',img)}" loading="lazy" alt="" onerror="this.style.opacity=.15">`:`<div class="kc-soon"><b>Coming soon</b>Image pending</div>`;
-    return `<div class="kc-card" onclick="kcOpen(${d._i},'${se?se.replace(/'/g,"\\'"):''}')"><div class="kc-ph">${d._new?'<span class="kc-tag l">New</span>':''}${d.seasons.length>1?`<span class="kc-tag r">${d.seasons.length} seasons</span>`:''}${ph}<div class="qv">View piece</div></div>
+    return `<div class="kc-card" onclick="kcOpen(${d._i},'${se?se.replace(/'/g,"\\'"):''}')"><div class="kc-ph">${d.seasons.length>1?`<span class="kc-tag r">${d.seasons.length} seasons</span>`:''}${ph}<div class="qv">View piece</div></div>
     <div class="kc-meta"><div class="kc-nm">${kcTC(d.name)}</div><div class="kc-cd">${d.code}</div>
     <div class="kc-ss">${d.seasons.map((s,i)=>`<span class="${!d.imgs[i]?'w':(i===d.seasons.length-1?'last':'')}">${s}</span>`).join('')}</div></div></div>`}).join('');
 }
@@ -956,7 +1038,7 @@ function renderTests(){
 function renderTeam(d){
   document.getElementById('teamCnt').textContent=d.length+' / '+ORDERS.length;
   document.getElementById('teamTbody').innerHTML=d.map(o=>`<tr>
-    <td style="font-weight:600;color:${pCol(o.person)}">${o.person||'—'}</td>
+    <td style="font-weight:600;color:#121212">${o.person||'—'}</td>
     <td class="mono" style="font-size:11px">${o.po}</td>
     <td style="font-size:12px;max-width:150px">${o.item}</td>
     <td>${o.season?b(o.season,'bgr'):'—'}</td>
