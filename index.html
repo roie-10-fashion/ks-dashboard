@@ -300,6 +300,12 @@ td a:hover{text-decoration-color:#121212!important}
 @media(max-width:768px){.hdr{height:52px}.hdr-t{font-size:12px;letter-spacing:2px}.nav{justify-content:flex-start}.tab{padding:11px 10px;font-size:10px;letter-spacing:1.2px}.kv{font-size:22px}}
 #po .kv{color:#121212}
 @media(max-width:768px){.hdr{height:auto;min-height:52px;padding:10px 12px;flex-wrap:wrap;gap:6px}#po .kg{grid-template-columns:repeat(2,1fr)!important}}
+.to-top{position:fixed;right:calc(max(0px,(100vw - 1500px) / 2) + 12px);bottom:22px;width:44px;height:44px;background:#121212;color:#F3EEE5;border:1px solid #121212;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:900;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s,transform .25s,visibility .25s,background .2s;box-shadow:0 8px 20px -10px rgba(0,0,0,.5)}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:#F3EEE5;color:#121212}
+.to-top svg{width:18px;height:18px}
+@media(min-width:900px){.page{padding-left:70px;padding-right:70px}}
+@media(max-width:899px){.to-top{right:6px;bottom:14px;width:38px;height:38px}}
 </style>
 </head>
 <body>
@@ -1068,5 +1074,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   renderTeam(ORDERS); document.getElementById('teamCnt').textContent=ORDERS.length+' / '+ORDERS.length;
 });
 </script>
+<button class="to-top" id="toTopBtn" title="Back to top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script>window.addEventListener('scroll',function(){var b=document.getElementById('toTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);},{passive:true});</script>
 </body>
 </html>
