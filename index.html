@@ -316,14 +316,35 @@ td a:hover{text-decoration-color:#121212!important}
 .tab-ic{width:17px;height:17px;flex-shrink:0;opacity:.85}
 .tab.active .tab-ic,.tab:hover .tab-ic{opacity:1}
 @media(max-width:768px){.hdr{grid-template-columns:1fr;padding:12px 12px 10px;gap:8px}.hdr-l{display:none}.hdr>#hdrPill{justify-self:center}.hdr-logo{font-size:18px;letter-spacing:5px}.hdr-sub{font-size:9px;letter-spacing:3px}.tab{gap:6px}.tab-ic{width:15px;height:15px}}
+/* header: clock + stats pill */
+.hdr-l{justify-self:start}
+.hdr-clock{justify-self:end;display:flex;align-items:center;gap:22px;color:#F3EEE5;font-family:var(--lux-font)}
+.hc-city{text-align:right}
+.hc-cn{font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:#A39D93}
+.hc-t{font-size:24px;font-weight:300;letter-spacing:2px;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+.hc-colon{animation:hcBlink 2s steps(1) infinite;margin:0 1px}
+@keyframes hcBlink{50%{opacity:.25}}
+.hc-d{font-size:9.5px;letter-spacing:1.8px;color:#8F897F;margin-top:4px}
+.hc-sep{width:1px;height:44px;background:#3A3936}
+/* catalog search clear */
+.kc-sw{position:relative;display:inline-block}
+.kc-sw .kc-srch{padding-right:26px}
+.kc-x2{position:absolute;right:0;top:50%;transform:translateY(-50%);background:none;border:0;color:#A39D93;font-size:13px;cursor:pointer;padding:4px 4px;line-height:1;display:none}
+.kc-x2:hover{color:#F3EEE5}
+.kc-x2.on{display:block}
+@media(max-width:768px){.hdr-l{justify-self:center}.hdr-clock{justify-self:center;gap:16px}.hc-city{text-align:center}.hc-t{font-size:18px}}
 </style>
 </head>
 <body>
 
 <div class="hdr">
-  <div class="hdr-l"></div>
-  <div class="hdr-t"><span class="hdr-logo">Konges Sløjd</span><span class="hdr-sub">Orders Dashboard · 10-Fashion</span><span class="pill" id="yearRangePill" style="display:none">2024–2026</span></div>
-  <div class="pill" id="hdrPill"></div>
+  <div class="hdr-l"><div class="pill" id="hdrPill"></div></div>
+  <div class="hdr-t"><span class="hdr-logo">Orders Dashboard</span><span class="hdr-sub">Konges Sløjd · 10-Fashion</span><span class="pill" id="yearRangePill" style="display:none">2024–2026</span></div>
+  <div class="hdr-clock" id="hdrClock">
+    <div class="hc-city"><div class="hc-cn">Yiwu</div><div class="hc-t" id="hcYT"></div><div class="hc-d" id="hcYD"></div></div>
+    <div class="hc-sep"></div>
+    <div class="hc-city"><div class="hc-cn">Copenhagen</div><div class="hc-t" id="hcCT"></div><div class="hc-d" id="hcCD"></div></div>
+  </div>
 </div>
 
 <!-- Notes Modal -->
@@ -554,7 +575,7 @@ td a:hover{text-decoration-color:#121212!important}
     <div class="kc-head">
       <div class="l">Items Catalog</div>
       <div class="kc-logo">Konges Sløjd<small>Design Archive · 10-Fashion</small></div>
-      <div class="r"><input class="kc-srch" id="kcQ" type="text" placeholder="Search code or name" oninput="kcRender()"></div>
+      <div class="r"><div class="kc-sw"><input class="kc-srch" id="kcQ" type="text" placeholder="Search code or name" oninput="kcRender();kcX()"><button class="kc-x2" id="kcQx" type="button" title="Clear search" aria-label="Clear search" onclick="kcQ.value='';kcX();kcRender();kcQ.focus()">✕</button></div></div>
     </div>
     <div class="kc-nav" id="kcNav"></div>
     <div class="kc-sub" id="kcSub"></div>
@@ -1130,5 +1151,14 @@ window.addEventListener('DOMContentLoaded',()=>{
 </script>
 <button class="to-top" id="toTopBtn" title="Back to top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <script>window.addEventListener('scroll',function(){var b=document.getElementById('toTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);},{passive:true});</script>
+<script>
+(function(){
+function parts(zone){var o={};new Intl.DateTimeFormat('en-GB',{timeZone:zone,hour:'2-digit',minute:'2-digit',weekday:'short',day:'2-digit',month:'short',year:'numeric',hour12:false}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value;});return o;}
+function put(zone,t,d){var o=parts(zone),te=document.getElementById(t),de=document.getElementById(d);if(!te)return;
+ te.innerHTML=o.hour+'<span class="hc-colon">:</span>'+o.minute;de.textContent=(o.weekday+' · '+o.day+' '+o.month+' '+o.year).toUpperCase();}
+function tick(){put('Asia/Shanghai','hcYT','hcYD');put('Europe/Copenhagen','hcCT','hcCD');}
+tick();setInterval(tick,1000);})();
+function kcX(){var q=document.getElementById('kcQ'),x=document.getElementById('kcQx');if(q&&x)x.classList.toggle('on',!!q.value);}
+</script>
 </body>
 </html>
