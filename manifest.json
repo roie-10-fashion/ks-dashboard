@@ -1,15 +1,17 @@
 {
   "name": "KS Dashboard",
-  "short_name": "KS",
+  "short_name": "KS Dashboard",
   "description": "KS Follow-Up Orders Dashboard",
+  "id": "/ks-dashboard/",
   "start_url": "/ks-dashboard/index.html",
+  "scope": "/ks-dashboard/",
   "display": "standalone",
-  "background_color": "#0F1B3C",
-  "theme_color": "#0F1B3C",
-  "orientation": "landscape",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "orientation": "any",
   "icons": [
-    {"src": "ks_icon.ico","sizes": "64x64","type": "image/x-icon"},
-    {"src": "icon-192.png","sizes": "192x192","type": "image/png"},
-    {"src": "icon-512.png","sizes": "512x512","type": "image/png"}
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
   ]
 }
