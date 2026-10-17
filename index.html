@@ -363,16 +363,20 @@ td a:hover{text-decoration-color:#121212!important}
 .kc-stat{display:inline-block;padding:3px 10px;font-size:12px;letter-spacing:.5px;border:1px solid}
 .kc-stat.st0{background:#F1E6CF;color:#6B4E1E;border-color:#C9A36A}
 .kc-stat.st1{background:#E2E9DD;color:#2F4F2F;border-color:#7E9A78}
+/* split clocks: Yiwu left, Copenhagen right */
+.hdr-clock-l{justify-self:start}
+.hdr-clock-l .hc-city{text-align:left}
+@media(max-width:768px){.hdr{grid-template-columns:1fr 1fr}.hdr-t{grid-column:1/-1;order:-1}.hdr .hdr-l{display:flex;justify-self:center}.hdr-clock{justify-self:center}.hdr-clock-l .hc-city{text-align:center}}
 </style>
 </head>
 <body>
 
 <div class="hdr">
-  <div class="hdr-l"><div class="pill" id="hdrPill"></div></div>
+  <div class="hdr-l hdr-clock hdr-clock-l"><div class="pill" id="hdrPill" style="display:none"></div>
+    <div class="hc-city"><div class="hc-cn">Yiwu</div><div class="hc-t" id="hcYT"></div><div class="hc-d" id="hcYD"></div></div>
+  </div>
   <div class="hdr-t"><span class="hdr-logo">Orders Dashboard</span><span class="hdr-sub">Konges Sløjd · 10-Fashion</span><span class="pill" id="yearRangePill" style="display:none">2024–2026</span></div>
   <div class="hdr-clock" id="hdrClock">
-    <div class="hc-city"><div class="hc-cn">Yiwu</div><div class="hc-t" id="hcYT"></div><div class="hc-d" id="hcYD"></div></div>
-    <div class="hc-sep"></div>
     <div class="hc-city"><div class="hc-cn">Copenhagen</div><div class="hc-t" id="hcCT"></div><div class="hc-d" id="hcCD"></div></div>
   </div>
 </div>
