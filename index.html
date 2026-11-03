@@ -531,6 +531,17 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
 .kc-gal div.on{border-color:#121212;outline:1px solid #121212}
 .kc-gal img{max-width:84%;max-height:74%;object-fit:contain;mix-blend-mode:multiply}
 .kc-gal span{font-size:8px;letter-spacing:1px;color:#57534C;text-transform:uppercase;margin-top:2px;max-width:56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Samples page */
+#shp .row{grid-template-columns:minmax(0,1fr)}
+.shp-t{min-width:1040px}
+.shp-t td{white-space:nowrap}
+.shp-wrap{position:relative;display:inline-block;vertical-align:middle}
+.shp-ph{width:54px;height:54px;object-fit:cover;display:block;cursor:zoom-in;border:1px solid #CFC8BC;background:#E7E2D9}
+.shp-none{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border:1px dashed #CFC8BC;color:#A29A8E;font-size:8px;letter-spacing:.4px;text-transform:uppercase;text-align:center}
+.shp-more{position:absolute;right:0;bottom:0;background:#121212;color:#F3EEE5;font-size:9.5px;padding:1px 4px;pointer-events:none}
+.shp-tr{cursor:copy;border-bottom:1px dashed #8F897F}
+.shp-t td.shp-notes{white-space:normal;min-width:200px;max-width:280px;line-height:1.4}
+.shp-empty{text-align:center;padding:44px 16px;color:#7E7970;letter-spacing:1.2px;text-transform:uppercase;font-size:11.5px}
 </style>
 </head>
 <body>
@@ -566,6 +577,7 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
   <div class="tab" onclick="show('po',this)"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><rect x="5" y="4" width="14" height="17"/><path d="M9 4V2.5h6V4M8.5 10h7M8.5 14h7M8.5 18h4"/></svg>PO Tracker</div>
   <div class="tab" onclick="show('inv',this)"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M6 2.5h12v19l-3-2-3 2-3-2-3 2z"/><path d="M9 7.5h6M9 11.5h6M9 15.5h4"/></svg>Invoices</div>
   <div class="tab" onclick="show('qc',this)"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.6 10.6l2 2 3.4-3.6"/></svg>QC &amp; Tests</div>
+  <div class="tab" onclick="show('shp',this)"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.5l8.5 4.7v9.6L12 21.5l-8.5-4.7V7.2z"/><path d="M3.8 7.4L12 12l8.2-4.6M12 12v9.3M7.8 4.9l8.4 4.7"/></svg>Samples</div>
   <div class="tab" onclick="show('team',this)"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20.5c.8-3.6 3.4-5.6 6.5-5.6s5.7 2 6.5 5.6"/><circle cx="17.2" cy="9" r="2.6"/><path d="M16.8 14.7c2.4.3 4.1 2 4.7 5"/></svg>Team</div>
   <div class="tab" onclick="show('items',this)"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 12.2V3h9.2l8.8 8.8-9.2 9.2z"/><circle cx="7.6" cy="7.6" r="1.6"/></svg>Items Catalog</div>
 </div>
@@ -725,6 +737,32 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
       <div class="th-wrap" style="max-height:640px"><table class="lt-t"><thead><tr>
         <th>Date</th><th>Season</th><th>Item</th><th>Result</th><th class="qdh" title="Tests in the lab report: passed · failed">Tests<span>PASS · FAIL</span></th><th>Report</th><th>Notes</th><th></th>
       </tr></thead><tbody id="testTbody"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<div id="shp" class="page">
+  <div class="kg g4">
+    <div class="kpi cb"><div class="kl">Samples Sent</div><div class="kv" id="shpKAll">—</div><div class="ks" id="shpKSub">—</div></div>
+    <div class="kpi co"><div class="kl">Pending</div><div class="kv" id="shpKPend">—</div><div class="ks">Awaiting reply</div></div>
+    <div class="kpi cg"><div class="kl">Approved</div><div class="kv" id="shpKOk">—</div><div class="ks">Samples</div></div>
+    <div class="kpi cr"><div class="kl">Rejected</div><div class="kv" id="shpKNo">—</div><div class="ks">Samples</div></div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="ctitle"><span class="ctbar" style="background:var(--blue)"></span>Samples Sent <span class="clbl" style="margin-left:auto;text-transform:none;letter-spacing:.3px;font-weight:400">Click a photo to enlarge · click a tracking number to copy</span></div>
+      <div class="ctrl">
+        <input class="sb" id="shpSrch" type="text" placeholder="🔍 Search item, tracking, notes..." oninput="filterShp()">
+        <select class="fs" id="shpType" onchange="filterShp()"><option value="">All Types</option></select>
+        <select class="fs" id="shpSeas" onchange="filterShp()"><option value="">All Seasons</option></select>
+        <select class="fs" id="shpCour" onchange="filterShp()"><option value="">All Couriers</option><option>FEDEX</option><option>DHL</option></select>
+        <select class="fs" id="shpStat" onchange="filterShp()"><option value="">All Status</option><option>Pending</option><option>Approved</option><option>Rejected</option></select>
+        <button class="rbtn" onclick="rstShp()">Reset</button>
+        <span class="clbl" id="shpCnt"></span>
+      </div>
+      <div class="th-wrap" style="max-height:680px"><table class="shp-t"><thead><tr>
+        <th>Photo</th><th>Date</th><th>Type</th><th>Season</th><th>Item</th><th>Product</th><th>Courier</th><th>Tracking No</th><th>Sent To</th><th>Status</th><th>Notes</th>
+      </tr></thead><tbody id="shpTbody"></tbody></table></div>
     </div>
   </div>
 </div>
@@ -1668,6 +1706,62 @@ document.addEventListener('keydown',function(e){
   if(!document.getElementById('qphOv').classList.contains('open'))return;
   if(e.key==='Escape')qcPhotosClose();else if(e.key==='ArrowRight')qcPhotosGo(1);else if(e.key==='ArrowLeft')qcPhotosGo(-1);
 });
+</script>
+<div class="qph-ov" id="shpOv" onclick="if(event.target===this)shpClose()">
+  <button class="qph-x" onclick="shpClose()" aria-label="Close">&#x2715;</button>
+  <button class="qph-nav p" onclick="shpGo(-1)" aria-label="Previous">&#8249;</button>
+  <img class="qph-img" id="shpImg" alt="">
+  <div class="qph-cap" id="shpCap"></div>
+  <div class="qph-cnt" id="shpNum"></div>
+  <button class="qph-nav n" onclick="shpGo(1)" aria-label="Next">&#8250;</button>
+</div>
+<script>
+const SHIP_SAMPLES=[{"date":"03.11.2026","type":"PROTO","season":"","code":"ZZZ049555","name":"UNICORN PLUSH TOY","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_ZZZ049555"]},{"date":"03.11.2026","type":"PROTO","season":"","code":"ZZZ049556","name":"DOG PLUSH BAG","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_ZZZ049556"]},{"date":"03.11.2026","type":"SMS","season":"","code":"KS110735","name":"GET READY WITH ME KIT","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_KS110735"]},{"date":"03.11.2026","type":"SWATCH","season":"SPRING 28","code":"KS110457","name":"TUT SHOULDER BAG","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_KS110457"]}];
+var SHPV={s:null,i:0};
+function shpBadge(s){return '<span class="badge '+(s==='Approved'?'bg':s==='Rejected'?'br':'bo')+'">'+qcEsc(s)+'</span>';}
+function shpRender(list){
+  const E=qcEsc, b=document.getElementById('shpTbody');
+  if(!list.length){b.innerHTML='<tr><td colspan="11" class="shp-empty">No samples to show</td></tr>';return;}
+  b.innerHTML=list.map(s=>{
+    const si=SHIP_SAMPLES.indexOf(s), n=s.imgs.length;
+    const ph=n?`<span class="shp-wrap"><img class="shp-ph" loading="lazy" src="files/samples/t/${E(s.imgs[0])}.jpg" alt="" onclick="shpOpen(${si})">${n>1?`<span class="shp-more">+${n-1}</span>`:''}</span>`:'<span class="shp-none">No photo</span>';
+    return `<tr><td>${ph}</td><td>${E(s.date)}</td><td><span class="badge bgr">${E(s.type)}</span></td><td>${E(s.season)}</td><td class="mono">${E(s.code)}</td><td>${E(s.name)}</td><td>${E(s.courier)}</td><td>${s.track?`<span class="mono shp-tr" title="Click to copy" onclick="shpCopy(this,${si})">${E(s.track)}</span>`:''}</td><td>${E(s.to)}</td><td>${shpBadge(s.status)}</td><td class="shp-notes">${E(s.notes)}</td></tr>`;
+  }).join('');
+}
+function filterShp(){
+  const v=id=>document.getElementById(id).value, q=v('shpSrch').trim().toLowerCase();
+  const list=SHIP_SAMPLES.filter(s=>(!v('shpType')||s.type===v('shpType'))&&(!v('shpSeas')||s.season===v('shpSeas'))&&(!v('shpCour')||s.courier===v('shpCour'))&&(!v('shpStat')||s.status===v('shpStat'))&&(!q||[s.code,s.name,s.track,s.notes,s.to,s.season,s.type].join(' ').toLowerCase().includes(q)));
+  shpRender(list);
+  document.getElementById('shpCnt').textContent=list.length+' / '+SHIP_SAMPLES.length;
+}
+function rstShp(){['shpSrch','shpType','shpSeas','shpCour','shpStat'].forEach(id=>document.getElementById(id).value='');filterShp();}
+function shpCopy(el,si){
+  const t=SHIP_SAMPLES[si].track, done=()=>{el.textContent='Copied ✓';setTimeout(()=>{el.textContent=t},1000);};
+  try{navigator.clipboard.writeText(t).then(done).catch(()=>{});}catch(e){}
+}
+function shpShow(){
+  const s=SHIP_SAMPLES[SHPV.s], n=s.imgs.length, E=qcEsc;
+  document.getElementById('shpImg').src='files/samples/f/'+s.imgs[SHPV.i]+'.jpg';
+  document.getElementById('shpCap').innerHTML=`<div><b>${E(s.name||s.code)}</b> <span class="d">${E(s.code)}${s.type?' · '+E(s.type):''}${s.date?' · '+E(s.date):''}</span></div>`;
+  document.getElementById('shpNum').textContent='Photo '+(SHPV.i+1)+' of '+n;
+  document.querySelectorAll('#shpOv .qph-nav').forEach(b=>b.style.visibility=n>1?'visible':'hidden');
+}
+function shpOpen(si){SHPV.s=si;SHPV.i=0;shpShow();document.getElementById('shpOv').classList.add('open');}
+function shpGo(d){const n=SHIP_SAMPLES[SHPV.s].imgs.length;SHPV.i=(SHPV.i+d+n)%n;shpShow();}
+function shpClose(){document.getElementById('shpOv').classList.remove('open');document.getElementById('shpImg').src='';}
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('shpOv').classList.contains('open'))return;
+  if(e.key==='Escape')shpClose();else if(e.key==='ArrowRight')shpGo(1);else if(e.key==='ArrowLeft')shpGo(-1);
+});
+(function(){
+  const S=SHIP_SAMPLES, c=x=>S.filter(s=>s.status===x).length, t=id=>document.getElementById(id);
+  t('shpKAll').textContent=S.length;
+  t('shpKSub').textContent=new Set(S.map(s=>s.track).filter(Boolean)).size+' parcels';
+  t('shpKPend').textContent=c('Pending');t('shpKOk').textContent=c('Approved');t('shpKNo').textContent=c('Rejected');
+  [...new Set(S.map(s=>s.season).filter(Boolean))].sort().forEach(x=>{const o=document.createElement('option');o.textContent=x;t('shpSeas').appendChild(o);});
+  [...new Set(S.map(s=>s.type).filter(Boolean))].sort().forEach(x=>{const o=document.createElement('option');o.textContent=x;t('shpType').appendChild(o);});
+  filterShp();
+})();
 </script>
 </body>
 </html>
