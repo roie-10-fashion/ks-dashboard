@@ -536,8 +536,12 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
 .shp-t{min-width:1040px}
 .shp-t td{white-space:nowrap}
 .shp-wrap{position:relative;display:inline-block;vertical-align:middle}
-.shp-ph{width:54px;height:54px;object-fit:cover;display:block;cursor:zoom-in;border:1px solid #CFC8BC;background:#E7E2D9}
+.shp-ph{width:54px;height:54px;object-fit:cover;display:block;cursor:pointer;border:1px solid #CFC8BC;background:#E7E2D9}
 .shp-none{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border:1px dashed #CFC8BC;color:#A29A8E;font-size:8px;letter-spacing:.4px;text-transform:uppercase;text-align:center}
+.shp-t tbody tr.shp-row{cursor:pointer}
+.shp-hov{position:fixed;z-index:9980;display:none;pointer-events:none;background:#FBF9F5;border:1px solid #121212;padding:6px;box-shadow:0 18px 40px -18px rgba(0,0,0,.55)}
+.shp-hov.on{display:block}
+.shp-hov img{display:block;width:340px;height:340px;object-fit:contain;background:#fff}
 .shp-more{position:absolute;right:0;bottom:0;background:#121212;color:#F3EEE5;font-size:9.5px;padding:1px 4px;pointer-events:none}
 .shp-tr{cursor:copy;border-bottom:1px dashed #8F897F}
 .shp-t td.shp-notes{white-space:normal;min-width:200px;max-width:280px;line-height:1.4}
@@ -750,7 +754,7 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
   </div>
   <div class="row">
     <div class="card">
-      <div class="ctitle"><span class="ctbar" style="background:var(--blue)"></span>Samples Sent <span class="clbl" style="margin-left:auto;text-transform:none;letter-spacing:.3px;font-weight:400">Click a photo to enlarge · click a tracking number to copy</span></div>
+      <div class="ctitle"><span class="ctbar" style="background:var(--blue)"></span>Samples Sent <span class="clbl" style="margin-left:auto;text-transform:none;letter-spacing:.3px;font-weight:400">Hover a photo to preview · click a row for details · click a tracking number to copy</span></div>
       <div class="ctrl">
         <input class="sb" id="shpSrch" type="text" placeholder="🔍 Search item, tracking, notes..." oninput="filterShp()">
         <select class="fs" id="shpType" onchange="filterShp()"><option value="">All Types</option></select>
@@ -761,7 +765,7 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
         <span class="clbl" id="shpCnt"></span>
       </div>
       <div class="th-wrap" style="max-height:680px"><table class="shp-t"><thead><tr>
-        <th>Photo</th><th>Date</th><th>Type</th><th>Season</th><th>Item</th><th>Product</th><th>Courier</th><th>Tracking No</th><th>Sent To</th><th>Status</th><th>Notes</th>
+        <th>Photo</th><th>Date Sent</th><th>Type</th><th>Season</th><th>Item</th><th>Product</th><th>Courier</th><th>Tracking No</th><th>Sent To</th><th>Status</th><th>Notes</th>
       </tr></thead><tbody id="shpTbody"></tbody></table></div>
     </div>
   </div>
@@ -1707,13 +1711,17 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Escape')qcPhotosClose();else if(e.key==='ArrowRight')qcPhotosGo(1);else if(e.key==='ArrowLeft')qcPhotosGo(-1);
 });
 </script>
-<div class="qph-ov" id="shpOv" onclick="if(event.target===this)shpClose()">
-  <button class="qph-x" onclick="shpClose()" aria-label="Close">&#x2715;</button>
-  <button class="qph-nav p" onclick="shpGo(-1)" aria-label="Previous">&#8249;</button>
-  <img class="qph-img" id="shpImg" alt="">
-  <div class="qph-cap" id="shpCap"></div>
-  <div class="qph-cnt" id="shpNum"></div>
-  <button class="qph-nav n" onclick="shpGo(1)" aria-label="Next">&#8250;</button>
+<div class="shp-hov" id="shpHov"><img id="shpHovImg" alt=""></div>
+<div class="kc-m" id="shpM" onclick="if(event.target===this)shpClose()">
+  <div class="kc-pp">
+    <div class="kc-big"><img id="shpBig" alt="" onclick="shpZoom()" title="Click to enlarge"><div class="kc-soon" id="shpSoon"><b>No photo</b></div><div class="kc-th" id="shpTh"></div></div>
+    <div class="kc-info">
+      <button class="kc-x" onclick="shpClose()">Close ✕</button>
+      <div class="kc-cr" id="shpCr"></div>
+      <h3 id="shpNm"></h3><div class="kc-sn" id="shpSn"></div>
+      <hr><dl class="kc-dl" id="shpDl"></dl>
+    </div>
+  </div>
 </div>
 <script>
 const SHIP_SAMPLES=[{"date":"03.11.2026","type":"PROTO","season":"","code":"ZZZ049555","name":"UNICORN PLUSH TOY","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_ZZZ049555"]},{"date":"03.11.2026","type":"PROTO","season":"","code":"ZZZ049556","name":"DOG PLUSH BAG","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_ZZZ049556"]},{"date":"03.11.2026","type":"SMS","season":"","code":"KS110735","name":"GET READY WITH ME KIT","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_KS110735"]},{"date":"03.11.2026","type":"SWATCH","season":"SPRING 28","code":"KS110457","name":"TUT SHOULDER BAG","courier":"FEDEX","track":"879630401160","to":"RIKKE","status":"Pending","notes":"","imgs":["879630401160_KS110457"]}];
@@ -1724,8 +1732,8 @@ function shpRender(list){
   if(!list.length){b.innerHTML='<tr><td colspan="11" class="shp-empty">No samples to show</td></tr>';return;}
   b.innerHTML=list.map(s=>{
     const si=SHIP_SAMPLES.indexOf(s), n=s.imgs.length;
-    const ph=n?`<span class="shp-wrap"><img class="shp-ph" loading="lazy" src="files/samples/t/${E(s.imgs[0])}.jpg" alt="" onclick="shpOpen(${si})">${n>1?`<span class="shp-more">+${n-1}</span>`:''}</span>`:'<span class="shp-none">No photo</span>';
-    return `<tr><td>${ph}</td><td>${E(s.date)}</td><td><span class="badge bgr">${E(s.type)}</span></td><td>${E(s.season)}</td><td class="mono">${E(s.code)}</td><td>${E(s.name)}</td><td>${E(s.courier)}</td><td>${s.track?`<span class="mono shp-tr" title="Click to copy" onclick="shpCopy(this,${si})">${E(s.track)}</span>`:''}</td><td>${E(s.to)}</td><td>${shpBadge(s.status)}</td><td class="shp-notes">${E(s.notes)}</td></tr>`;
+    const ph=n?`<span class="shp-wrap"><img class="shp-ph" loading="lazy" src="files/samples/t/${E(s.imgs[0])}.jpg" alt="" onmouseenter="shpHover(this,${si})" onmouseleave="shpHoverOff()">${n>1?`<span class="shp-more">+${n-1}</span>`:''}</span>`:'<span class="shp-none">No photo</span>';
+    return `<tr class="shp-row" onclick="shpOpen(${si})"><td>${ph}</td><td>${E(s.date)}</td><td><span class="badge bgr">${E(s.type)}</span></td><td>${E(s.season)}</td><td class="mono">${E(s.code)}</td><td>${E(s.name)}</td><td>${E(s.courier)}</td><td>${s.track?`<span class="mono shp-tr" title="Click to copy" onclick="event.stopPropagation();shpCopy(this,${si})">${E(s.track)}</span>`:''}</td><td>${E(s.to)}</td><td>${shpBadge(s.status)}</td><td class="shp-notes">${E(s.notes)}</td></tr>`;
   }).join('');
 }
 function filterShp(){
@@ -1739,20 +1747,43 @@ function shpCopy(el,si){
   const t=SHIP_SAMPLES[si].track, done=()=>{el.textContent='Copied ✓';setTimeout(()=>{el.textContent=t},1000);};
   try{navigator.clipboard.writeText(t).then(done).catch(()=>{});}catch(e){}
 }
-function shpShow(){
-  const s=SHIP_SAMPLES[SHPV.s], n=s.imgs.length, E=qcEsc;
-  document.getElementById('shpImg').src='files/samples/f/'+s.imgs[SHPV.i]+'.jpg';
-  document.getElementById('shpCap').innerHTML=`<div><b>${E(s.name||s.code)}</b> <span class="d">${E(s.code)}${s.type?' · '+E(s.type):''}${s.date?' · '+E(s.date):''}</span></div>`;
-  document.getElementById('shpNum').textContent='Photo '+(SHPV.i+1)+' of '+n;
-  document.querySelectorAll('#shpOv .qph-nav').forEach(b=>b.style.visibility=n>1?'visible':'hidden');
+function shpHover(el,si){
+  if(!matchMedia('(hover:hover)').matches)return;
+  const box=document.getElementById('shpHov'), r=el.getBoundingClientRect(), H=354;
+  document.getElementById('shpHovImg').src='files/samples/f/'+SHIP_SAMPLES[si].imgs[0]+'.jpg';
+  box.style.left=(r.right+12)+'px';
+  box.style.top=Math.max(8,Math.min(innerHeight-H-8,r.top+r.height/2-H/2))+'px';
+  box.classList.add('on');
 }
-function shpOpen(si){SHPV.s=si;SHPV.i=0;shpShow();document.getElementById('shpOv').classList.add('open');}
-function shpGo(d){const n=SHIP_SAMPLES[SHPV.s].imgs.length;SHPV.i=(SHPV.i+d+n)%n;shpShow();}
-function shpClose(){document.getElementById('shpOv').classList.remove('open');document.getElementById('shpImg').src='';}
+function shpHoverOff(){document.getElementById('shpHov').classList.remove('on');}
+function shpShow(){
+  const s=SHIP_SAMPLES[SHPV.s], n=s.imgs.length, E=qcEsc, big=document.getElementById('shpBig');
+  document.getElementById('shpSoon').style.display=n?'none':'flex';
+  big.style.display=n?'':'none';
+  if(n)big.src='files/samples/f/'+s.imgs[SHPV.i]+'.jpg';
+  document.getElementById('shpTh').innerHTML=n>1?s.imgs.map((x,i)=>`<div class="${i===SHPV.i?'on':''}" onclick="SHPV.i=${i};shpShow()"><img src="files/samples/t/${E(x)}.jpg" alt=""></div>`).join(''):'';
+}
+function shpOpen(si){
+  const s=SHIP_SAMPLES[si], E=qcEsc;
+  shpHoverOff(); SHPV.s=si; SHPV.i=0;
+  document.getElementById('shpCr').textContent=s.type;
+  document.getElementById('shpNm').textContent=s.name||s.code;
+  document.getElementById('shpSn').textContent=s.code?'Style № '+s.code:'';
+  const row=(k,v)=>v?`<dt>${k}</dt><dd>${E(v)}</dd>`:'';
+  document.getElementById('shpDl').innerHTML=row('Date Sent',s.date)+row('Season',s.season)+row('Courier',s.courier)+row('Tracking No',s.track)+row('Sent To',s.to)+row('Status',s.status)+row('Notes',s.notes);
+  shpShow(); document.getElementById('shpM').classList.add('on');
+}
+function shpGo(d){const n=SHIP_SAMPLES[SHPV.s].imgs.length;if(n){SHPV.i=(SHPV.i+d+n)%n;shpShow();}}
+function shpClose(){document.getElementById('shpM').classList.remove('on');}
+function shpZoom(){
+  const s=SHIP_SAMPLES[SHPV.s], lb=document.getElementById('kcLb');
+  lb.classList.remove('z'); kcLbImg.src='files/samples/f/'+s.imgs[SHPV.i]+'.jpg';
+  kcLbT.textContent=(s.name||s.code)+' · '+s.code; lb.classList.add('on');
+}
 document.addEventListener('keydown',function(e){
-  if(!document.getElementById('shpOv').classList.contains('open'))return;
+  if(!document.getElementById('shpM').classList.contains('on')||document.getElementById('kcLb').classList.contains('on'))return;
   if(e.key==='Escape')shpClose();else if(e.key==='ArrowRight')shpGo(1);else if(e.key==='ArrowLeft')shpGo(-1);
-});
+},true);
 (function(){
   const S=SHIP_SAMPLES, c=x=>S.filter(s=>s.status===x).length, t=id=>document.getElementById(id);
   t('shpKAll').textContent=S.length;
