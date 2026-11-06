@@ -546,6 +546,25 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
 .shp-tr{cursor:copy;border-bottom:1px dashed #8F897F}
 .shp-t td.shp-notes{white-space:normal;min-width:200px;max-width:280px;line-height:1.4}
 .shp-empty{text-align:center;padding:44px 16px;color:#7E7970;letter-spacing:1.2px;text-transform:uppercase;font-size:11.5px}
+/* sample requests — ticker + board (Samples page) */
+.card:has(#reqTicker){background:#121212;border-color:#121212}
+.card:has(#reqTicker)>div:first-child{color:#E7E2D9!important;opacity:.85!important;letter-spacing:1.8px;font-weight:500!important}
+#reqTicker .titem{margin-right:22px}
+#reqTicker .rsep{color:#8F897F;margin-left:22px}
+.req-t{min-width:1080px}
+.req-t td{vertical-align:middle}
+.req-t td.req-nt{white-space:normal;min-width:260px;max-width:420px;line-height:1.45;color:#3A3633}
+.req-sn{display:inline-block;padding:3px 8px;font-size:10.5px;font-weight:600;letter-spacing:.8px;border:1px solid #CFC8BC;color:#3A3633;white-space:nowrap}
+.req-sn.s-fall{background:#EFE6C6;color:#5E4A12;border-color:#D9C98F}
+.req-sn.s-winter{background:#DCE5EC;color:#24435A;border-color:#B5C7D5}
+.req-sn.s-spring{background:#F3E1CF;color:#6B3F1E;border-color:#DFC2A5}
+.req-sn.s-summer{background:#E4EADD;color:#2F4F2F;border-color:#BFCBB5}
+.req-pk{display:inline-block;margin-left:6px;font-size:10px;letter-spacing:.6px;color:#57534C;border:1px solid #CFC8BC;padding:1px 5px;text-transform:uppercase}
+.req-dl{white-space:nowrap}
+.req-left{display:block;font-size:11px;letter-spacing:.3px;color:#7E7970;margin-top:2px}
+.req-left.hot{color:#7E2A23;font-weight:600}.req-left.warm{color:#6B4A18;font-weight:600}
+.req-sent{display:block;font-size:11px;color:#2F4F2F;margin-top:3px;letter-spacing:.2px}
+.req-t tr.req-done td{opacity:.5}
 </style>
 </head>
 <body>
@@ -746,6 +765,27 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
 </div>
 
 <div id="shp" class="page">
+  <div class="card" style="padding:12px 0;overflow:hidden;position:relative;margin-bottom:14px">
+    <div style="position:absolute;top:8px;left:16px;font-size:10px;font-weight:700;color:var(--navy);opacity:.5;z-index:2">SAMPLE REQUESTS</div>
+    <div style="white-space:nowrap;overflow:hidden;margin-top:16px">
+      <div class="ticker-track" id="reqTicker" style="display:inline-block"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="ctitle"><span class="ctbar" style="background:#121212"></span>Sample Requests <span class="clbl" id="reqSum" style="margin-left:auto;text-transform:none;letter-spacing:.3px;font-weight:400"></span></div>
+      <div class="ctrl">
+        <select class="fs" id="reqSeas" onchange="filterReq()"><option value="">All Seasons</option></select>
+        <select class="fs" id="reqOwn" onchange="filterReq()"><option value="">All Owners</option></select>
+        <select class="fs" id="reqStat" onchange="filterReq()"><option value="">Open requests</option><option>Can proceed</option><option>Waiting</option><option>Sent</option><option value="*">All</option></select>
+        <button class="rbtn" onclick="rstReq()">Reset</button>
+        <span class="clbl" id="reqCnt"></span>
+      </div>
+      <div class="th-wrap" style="max-height:620px"><table class="req-t"><thead><tr>
+        <th>Season</th><th>Item</th><th>Product</th><th>Request</th><th>Qty</th><th>Deadline</th><th>Owner</th><th>Status</th><th>Comments</th>
+      </tr></thead><tbody id="reqTbody"></tbody></table></div>
+    </div>
+  </div>
   <div class="kg g4">
     <div class="kpi cb"><div class="kl">Samples Sent</div><div class="kv" id="shpKAll">—</div><div class="ks" id="shpKSub">—</div></div>
     <div class="kpi co"><div class="kl">Pending</div><div class="kv" id="shpKPend">—</div><div class="ks">Awaiting reply</div></div>
@@ -1792,6 +1832,33 @@ document.addEventListener('keydown',function(e){
   [...new Set(S.map(s=>s.season).filter(Boolean))].sort().forEach(x=>{const o=document.createElement('option');o.textContent=x;t('shpSeas').appendChild(o);});
   [...new Set(S.map(s=>s.type).filter(Boolean))].sort().forEach(x=>{const o=document.createElement('option');o.textContent=x;t('shpType').appendChild(o);});
   filterShp();
+})();
+</script>
+<script>
+const SMP_REQ=[{"season":"FALL 27","code":"KS110735","name":"GET READY WITH ME KIT","req":"HANGTAG","qty":"1","pack":false,"dl":"10.12.2026","owner":"ANNIE","status":"Can proceed","notes":""},{"season":"WINTER 27","code":"KS106360","name":"LETTER JEWELRY KIT","req":"SMS","qty":"4","pack":true,"dl":"08.01.2027","owner":"JOEY","status":"Can proceed","notes":""},{"season":"WINTER 27","code":"KS109985","name":"ALL I WISH FOR - JEWELRY","req":"SMS","qty":"10","pack":true,"dl":"08.01.2027","owner":"JOEY","status":"Waiting","notes":"Awaiting final approval for the boxes / Waiting for jewelry artwork"},{"season":"WINTER 27","code":"KS109991","name":"FLOWER MARKET JEWELRY SET","req":"SMS","qty":"10","pack":true,"dl":"08.01.2027","owner":"JOEY","status":"Waiting","notes":"Jewelry can proceed / Waiting for packaging artwork"},{"season":"WINTER 27","code":"KS102943","name":"CHERRY JEWELRY SET","req":"SMS","qty":"4","pack":true,"dl":"08.01.2027","owner":"JOEY","status":"Can proceed","notes":""},{"season":"WINTER 27","code":"KS109969","name":"KITTY TUT WALLET","req":"SMS","qty":"4","pack":false,"dl":"08.01.2027","owner":"ANNIE","status":"Waiting","notes":"Awaiting submission of the swatch – and final approval from the client"},{"season":"WINTER 27","code":"KS109968","name":"KITTY TUT SHOULDER BAG","req":"SMS","qty":"10","pack":false,"dl":"08.01.2027","owner":"ANNIE","status":"Waiting","notes":"Awaiting submission of the swatch – and final approval from the client"},{"season":"WINTER 27","code":"KS109971","name":"STAR TUT SHOULDER BAG","req":"SMS","qty":"10","pack":false,"dl":"08.01.2027","owner":"ANNIE","status":"Waiting","notes":"Awaiting feedback and final approval from the client"},{"season":"WINTER 27","code":"KS109970","name":"STAR TUT SHOULDER WALLET","req":"SMS","qty":"4","pack":false,"dl":"08.01.2027","owner":"ANNIE","status":"Waiting","notes":"Awaiting feedback and final approval from the client"},{"season":"SPRING 28","code":"KS110457","name":"UNICORN TUT SHOULDER BAG","req":"SMS","qty":"10","pack":false,"dl":"08.01.2027","owner":"ANNIE","status":"Waiting","notes":"Awaiting feedback and final approval from the client"},{"season":"SPRING 28","code":"KS110456","name":"UNICORN TUT SHOULDER WALLET","req":"SMS","qty":"4","pack":false,"dl":"08.01.2027","owner":"ANNIE","status":"Waiting","notes":"Awaiting feedback and final approval from the client"},{"season":"SPRING 28","code":"KS110519","name":"PERLA BAG","req":"SMS","qty":"10","pack":false,"dl":"08.01.2027","owner":"ANNIE","status":"Waiting","notes":"Waiting for the client's approval regarding the color of the beads"}];
+function reqDays(d){const m=(d||'').match(/^(\d{2})\.(\d{2})\.(\d{4})$/);if(!m)return null;const t=new Date(),a=new Date(t.getFullYear(),t.getMonth(),t.getDate()),b=new Date(+m[3],+m[2]-1,+m[1]);return Math.round((b-a)/864e5);}
+function reqSeasCls(s){s=(s||'').toUpperCase();return s.includes('FALL')||s.includes('AW')?'s-fall':s.includes('WINTER')?'s-winter':s.includes('SPRING')?'s-spring':s.includes('SUMMER')||s.includes('HS')||s.includes('SS')?'s-summer':'';}
+function reqLeft(r){if(r.status==='Sent')return '';const n=reqDays(r.dl);if(n===null)return '';const c=n<=14?'hot':n<=30?'warm':'';return '<span class="req-left '+c+'">'+(n<0?'Overdue '+(-n)+' days':n===0?'Due today':n===1?'1 day left':n+' days left')+'</span>';}
+function reqSentInfo(r){if(typeof SHIP_SAMPLES==='undefined'||!r.code)return '';const E=qcEsc;return SHIP_SAMPLES.filter(s=>s.code===r.code&&(!s.season||!r.season||s.season===r.season)).map(s=>'<span class="req-sent">↳ '+E(s.type)+' sent '+E(s.date)+'</span>').join('');}
+function reqBadge(s){return '<span class="badge '+(s==='Can proceed'?'bg':s==='Sent'?'bgr':'bo')+'">'+qcEsc(s)+'</span>';}
+function filterReq(){
+  const v=id=>document.getElementById(id).value, st=v('reqStat'), E=qcEsc;
+  const list=SMP_REQ.filter(r=>(!v('reqSeas')||r.season===v('reqSeas'))&&(!v('reqOwn')||r.owner===v('reqOwn'))&&(st==='*'?true:st?r.status===st:r.status!=='Sent'));
+  const b=document.getElementById('reqTbody');
+  b.innerHTML=list.length?list.map(r=>`<tr class="${r.status==='Sent'?'req-done':''}"><td><span class="req-sn ${reqSeasCls(r.season)}">${E(r.season)}</span></td><td class="mono">${E(r.code)}</td><td>${E(r.name)}</td><td><span class="badge bgr">${E(r.req)}</span></td><td style="white-space:nowrap">${E(r.qty)}${r.qty?' pcs':''}${r.pack?'<span class="req-pk">+ packing</span>':''}</td><td class="req-dl">${E(r.dl)}${reqLeft(r)}</td><td>${E(r.owner)}</td><td>${reqBadge(r.status)}</td><td class="req-nt">${E(r.notes)}${reqSentInfo(r)}</td></tr>`).join(''):'<tr><td colspan="9" class="shp-empty">No requests to show</td></tr>';
+  document.getElementById('reqCnt').textContent=list.length+' / '+SMP_REQ.length;
+}
+function rstReq(){['reqSeas','reqOwn','reqStat'].forEach(id=>document.getElementById(id).value='');filterReq();}
+(function(){
+  const t=id=>document.getElementById(id), E=qcEsc, open=SMP_REQ.filter(r=>r.status!=='Sent');
+  const items=open.length?open.map(r=>`<span class="titem">${r.season?E(r.season)+' · ':''}<b>${E(r.code)}</b> ${E(r.name)}<span class="rsep">•</span></span>`).join(''):'<span class="titem">No open sample requests</span>';
+  t('reqTicker').innerHTML=items+items;
+  t('reqTicker').style.animation='tickerScroll '+Math.max(60,open.length*12)+'s linear infinite';
+  const next=open.map(r=>({r,n:reqDays(r.dl)})).filter(x=>x.n!==null).sort((a,b)=>a.n-b.n)[0];
+  t('reqSum').textContent=open.length+' open'+(next?' · next deadline '+next.r.dl+' ('+(next.n<0?'overdue':next.n+' days')+')':'');
+  [...new Set(SMP_REQ.map(r=>r.season).filter(Boolean))].forEach(x=>{const o=document.createElement('option');o.textContent=x;t('reqSeas').appendChild(o);});
+  [...new Set(SMP_REQ.map(r=>r.owner).filter(Boolean))].sort().forEach(x=>{const o=document.createElement('option');o.textContent=x;t('reqOwn').appendChild(o);});
+  filterReq();
 })();
 </script>
 </body>
