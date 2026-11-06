@@ -559,7 +559,7 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
 .req-sn.s-winter{background:#DCE5EC;color:#24435A;border-color:#B5C7D5}
 .req-sn.s-spring{background:#F3E1CF;color:#6B3F1E;border-color:#DFC2A5}
 .req-sn.s-summer{background:#E4EADD;color:#2F4F2F;border-color:#BFCBB5}
-.req-pk{display:inline-block;margin-left:6px;font-size:10px;letter-spacing:.6px;color:#57534C;border:1px solid #CFC8BC;padding:1px 5px;text-transform:uppercase}
+.req-pk{display:inline-block;font-size:10px;letter-spacing:.6px;color:#57534C;border:1px solid #CFC8BC;padding:1px 5px;text-transform:uppercase}
 .req-dl{white-space:nowrap}
 .req-left{display:block;font-size:11px;letter-spacing:.3px;color:#7E7970;margin-top:2px}
 .req-left.hot{color:#7E2A23;font-weight:600}.req-left.warm{color:#6B4A18;font-weight:600}
@@ -776,13 +776,13 @@ tr.qdet>td{padding:0!important;background:#F3EEE5!important;border-bottom:2px so
       <div class="ctitle"><span class="ctbar" style="background:#121212"></span>Sample Requests <span class="clbl" id="reqSum" style="margin-left:auto;text-transform:none;letter-spacing:.3px;font-weight:400"></span></div>
       <div class="ctrl">
         <select class="fs" id="reqSeas" onchange="filterReq()"><option value="">All Seasons</option></select>
-        <select class="fs" id="reqOwn" onchange="filterReq()"><option value="">All Owners</option></select>
+        <select class="fs" id="reqOwn" onchange="filterReq()"><option value="">All Merchandisers</option></select>
         <select class="fs" id="reqStat" onchange="filterReq()"><option value="">Open requests</option><option>Can proceed</option><option>Waiting</option><option>Sent</option><option value="*">All</option></select>
         <button class="rbtn" onclick="rstReq()">Reset</button>
         <span class="clbl" id="reqCnt"></span>
       </div>
       <div class="th-wrap" style="max-height:620px"><table class="req-t"><thead><tr>
-        <th>Season</th><th>Item</th><th>Product</th><th>Request</th><th>Qty</th><th>Deadline</th><th>Owner</th><th>Status</th><th>Comments</th>
+        <th>Season</th><th>Item</th><th>Product</th><th>Request</th><th>Qty</th><th>Packing</th><th>Deadline</th><th>Merchandiser</th><th>Status</th><th>Comments</th>
       </tr></thead><tbody id="reqTbody"></tbody></table></div>
     </div>
   </div>
@@ -1845,7 +1845,7 @@ function filterReq(){
   const v=id=>document.getElementById(id).value, st=v('reqStat'), E=qcEsc;
   const list=SMP_REQ.filter(r=>(!v('reqSeas')||r.season===v('reqSeas'))&&(!v('reqOwn')||r.owner===v('reqOwn'))&&(st==='*'?true:st?r.status===st:r.status!=='Sent'));
   const b=document.getElementById('reqTbody');
-  b.innerHTML=list.length?list.map(r=>`<tr class="${r.status==='Sent'?'req-done':''}"><td><span class="req-sn ${reqSeasCls(r.season)}">${E(r.season)}</span></td><td class="mono">${E(r.code)}</td><td>${E(r.name)}</td><td><span class="badge bgr">${E(r.req)}</span></td><td style="white-space:nowrap">${E(r.qty)}${r.qty?' pcs':''}${r.pack?'<span class="req-pk">+ packing</span>':''}</td><td class="req-dl">${E(r.dl)}${reqLeft(r)}</td><td>${E(r.owner)}</td><td>${reqBadge(r.status)}</td><td class="req-nt">${E(r.notes)}${reqSentInfo(r)}</td></tr>`).join(''):'<tr><td colspan="9" class="shp-empty">No requests to show</td></tr>';
+  b.innerHTML=list.length?list.map(r=>`<tr class="${r.status==='Sent'?'req-done':''}"><td><span class="req-sn ${reqSeasCls(r.season)}">${E(r.season)}</span></td><td class="mono">${E(r.code)}</td><td>${E(r.name)}</td><td><span class="badge bgr">${E(r.req)}</span></td><td style="white-space:nowrap">${E(r.qty)}${r.qty?' pcs':''}</td><td>${r.pack?'<span class="req-pk">Required</span>':'<span style="color:#A29A8E">—</span>'}</td><td class="req-dl">${E(r.dl)}${reqLeft(r)}</td><td>${E(r.owner)}</td><td>${reqBadge(r.status)}</td><td class="req-nt">${E(r.notes)}${reqSentInfo(r)}</td></tr>`).join(''):'<tr><td colspan="10" class="shp-empty">No requests to show</td></tr>';
   document.getElementById('reqCnt').textContent=list.length+' / '+SMP_REQ.length;
 }
 function rstReq(){['reqSeas','reqOwn','reqStat'].forEach(id=>document.getElementById(id).value='');filterReq();}
