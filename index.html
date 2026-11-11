@@ -1312,7 +1312,7 @@ function kcOpen(i,season){
   const d=CATALOG[i];
   kcCr.textContent=kcTC(kcGroup(d.cat))+(kcSubOf(d.cat)?'  /  '+kcTC(kcSubOf(d.cat)):'');
   kcNm.textContent=kcTC(d.name);kcSn.textContent='Style № '+d.code;
-  {const dl=document.getElementById('kcDlg');if(d.link){dl.href=d.link;dl.style.display='';}else{dl.removeAttribute('href');dl.style.display='none';}}
+  {const dl=document.getElementById('kcDlg'),ua=navigator.userAgent,edge=/Windows/.test(ua)&&!/Edg\//.test(ua);if(d.link){dl.href=edge?'microsoft-edge:'+d.link:d.link;if(edge)dl.removeAttribute('target');else dl.target='_blank';dl.style.display='';}else{dl.removeAttribute('href');dl.style.display='none';}}
   kcTabs.innerHTML=d.seasons.map((s,k)=>`<button data-k="${k}" class="${d.imgs[k]?'':'w'}">${s}</button>`).join('');
   const multiImg=new Set(d.imgs.filter(Boolean)).size>1||d.imgs.some(x=>!x);
   kcTh.innerHTML=d.seasons.length>1&&multiImg?d.seasons.map((s,k)=>`<div data-k="${k}" title="${s}">${d.imgs[k]?`<img src="${kcU('t',d.imgs[k])}" alt="">`:'<span>SOON</span>'}</div>`).join(''):'';
